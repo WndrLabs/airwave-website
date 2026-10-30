@@ -28,7 +28,7 @@ export function appStoreBadge(lang, { height = 54 } = {}) {
 }
 
 /** The wave of the app icon, as a line that can be animated. */
-export const waveSvg = (cls = '') => html`<svg class="wave ${cls}" viewBox="0 0 1000 300" aria-hidden="true" preserveAspectRatio="none">
+export const waveSvg = (cls = '') => html`<svg class="wave wave-${cls}" viewBox="0 0 1000 300" aria-hidden="true" preserveAspectRatio="none">
   <defs>
     <linearGradient id="wg${cls}" x1="0" x2="1">
       <stop offset="0" stop-color="#45E3FF"/><stop offset=".5" stop-color="#A27BFF"/><stop offset="1" stop-color="#FF6FB1"/>
