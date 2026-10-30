@@ -20,7 +20,7 @@ export const SITE = {
   appId: '6822921195',
   appStore: 'https://apps.apple.com/app/id6822921195',
   /** Opens the app on a station (the app's URL scheme, see app.config.ts). */
-  appLink: (slug) => `airwaves://radio/${slug}`,
+  appLink: (slug) => `skywave://radio/${slug}`,
   bundleId: 'com.wndrlabs.airwaves',
   privacy: 'https://github.com/WndrLabs/airwaves-stations/blob/main/PRIVACY.md',
   support: 'https://github.com/WndrLabs/airwaves-stations/blob/main/SUPPORT.md',

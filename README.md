@@ -24,7 +24,7 @@ When someone opens a station link:
 
 - **Skywave installed** (universal links): iOS opens the app, which plays the station.
 - **Not installed**: the station's page, with a mini player, Apple's Smart App Banner and
-  "Listen in Skywave", which opens the app (`airwaves://radio/<slug>`) or else the App Store.
+  "Listen in Skywave", which opens the app (`skywave://radio/<slug>`) or else the App Store.
 
 ## Setup
 
