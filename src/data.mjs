@@ -1,4 +1,6 @@
-{
+// Genre and country names (from the app's src/i18n/strings.ts) and the countries (data/countries.json).
+
+export const NAMES = {
   "en": {
     "genres": {
       "all": "All",
@@ -131,4 +133,107 @@
       "ZA": "Südafrika"
     }
   }
-}
+};
+
+export const COUNTRIES = [
+  {
+    "code": "FR",
+    "name": "France",
+    "flag": "🇫🇷"
+  },
+  {
+    "code": "US",
+    "name": "United States",
+    "flag": "🇺🇸"
+  },
+  {
+    "code": "GB",
+    "name": "United Kingdom",
+    "flag": "🇬🇧"
+  },
+  {
+    "code": "DE",
+    "name": "Germany",
+    "flag": "🇩🇪"
+  },
+  {
+    "code": "BE",
+    "name": "Belgium",
+    "flag": "🇧🇪"
+  },
+  {
+    "code": "CH",
+    "name": "Switzerland",
+    "flag": "🇨🇭"
+  },
+  {
+    "code": "CA",
+    "name": "Canada",
+    "flag": "🇨🇦"
+  },
+  {
+    "code": "ES",
+    "name": "Spain",
+    "flag": "🇪🇸"
+  },
+  {
+    "code": "IT",
+    "name": "Italy",
+    "flag": "🇮🇹"
+  },
+  {
+    "code": "NL",
+    "name": "Netherlands",
+    "flag": "🇳🇱"
+  },
+  {
+    "code": "PT",
+    "name": "Portugal",
+    "flag": "🇵🇹"
+  },
+  {
+    "code": "BR",
+    "name": "Brazil",
+    "flag": "🇧🇷"
+  },
+  {
+    "code": "MX",
+    "name": "Mexico",
+    "flag": "🇲🇽"
+  },
+  {
+    "code": "JP",
+    "name": "Japan",
+    "flag": "🇯🇵"
+  },
+  {
+    "code": "AU",
+    "name": "Australia",
+    "flag": "🇦🇺"
+  },
+  {
+    "code": "SN",
+    "name": "Senegal",
+    "flag": "🇸🇳"
+  },
+  {
+    "code": "CI",
+    "name": "Côte d'Ivoire",
+    "flag": "🇨🇮"
+  },
+  {
+    "code": "MA",
+    "name": "Morocco",
+    "flag": "🇲🇦"
+  },
+  {
+    "code": "NG",
+    "name": "Nigeria",
+    "flag": "🇳🇬"
+  },
+  {
+    "code": "ZA",
+    "name": "South Africa",
+    "flag": "🇿🇦"
+  }
+];

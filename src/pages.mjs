@@ -11,7 +11,8 @@ import {
   stationPath,
   waveSvg,
 } from './html.mjs';
-import { SITE } from './site.mjs';
+import { COUNTRIES } from './data.mjs';
+import { SITE, siteConfig } from './site.mjs';
 
 /** Two tones per genre, as in the app's genre tiles. */
 const PALETTES = {
@@ -60,11 +61,11 @@ export function logo(station, size, { eager = false } = {}) {
   return `<span class="logo logo-text" style="--from:${from};--to:${to};width:${size}px;height:${size}px;font-size:${Math.round(size * 0.36)}px">${esc(initials || '♪')}</span>`;
 }
 
-const flag = (code, countries) => countries.find((c) => c.code === code)?.flag ?? '';
+const flag = (code) => COUNTRIES.find((c) => c.code === code)?.flag ?? '';
 
 // ─── Landing ──────────────────────────────────────────────────────────────────────────────────────
 
-export function landingPage(lang, { marquee, countries, byCountry, total }) {
+export function landingPage(lang, { marquee, byCountry, total }) {
   const t = T[lang];
   const alternates = Object.fromEntries(LANGS.map((l) => [l, landingPath(l)]));
   alternates['x-default'] = '/';
@@ -201,7 +202,7 @@ ${nav(lang, { landing: true })}
     <h2 class="reveal">${t.countries.title}</h2>
     <p class="lead reveal">${t.countries.text}</p>
     <div class="country-grid">
-      ${countries
+      ${COUNTRIES
         .filter((c) => byCountry.get(c.code)?.length)
         .map(
           (c) => html`<a class="country reveal" href="${SITE.url(countryPath(c.code))}"><span class="flag">${c.flag}</span><span class="cname">${esc(t.countries[c.code] ?? c.name)}</span><span class="count">${fmt.format(byCountry.get(c.code).length)}</span></a>`,
@@ -242,7 +243,7 @@ ${nav(lang, { landing: true })}
 
 // ─── Station ──────────────────────────────────────────────────────────────────────────────────────
 
-export function stationPage(station, { related, countries, byCountry }) {
+export function stationPage(station, { related, byCountry }) {
   const lang = langOf(station.country);
   const t = T[lang];
   const s = t.station;
@@ -266,7 +267,7 @@ ${nav(lang)}
       <div class="player-logo">${logo(station, 168, { eager: true })}</div>
       <div class="player-info">
         <h1>${esc(station.name)}</h1>
-        <p class="player-meta"><span>${flag(station.country, countries)} ${esc(country)}</span>${genres.length ? `<span>${esc(genres.join(' · '))}</span>` : ''}</p>
+        <p class="player-meta"><span>${flag(station.country)} ${esc(country)}</span>${genres.length ? `<span>${esc(genres.join(' · '))}</span>` : ''}</p>
         <div class="player-controls">
           <button class="play" type="button" aria-label="${esc(s.play)}">
             <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>
@@ -334,7 +335,7 @@ ${nav(lang)}
 
 // ─── Country ──────────────────────────────────────────────────────────────────────────────────────
 
-export function countryPage(code, stations, { countries, genreOrder }) {
+export function countryPage(code, stations, { genreOrder }) {
   const lang = langOf(code);
   const t = T[lang];
   const name = t.countries[code] ?? code;
@@ -349,7 +350,7 @@ export function countryPage(code, stations, { countries, genreOrder }) {
 ${nav(lang)}
 <main class="country-main">
   <header class="country-head">
-    <span class="big-flag">${flag(code, countries)}</span>
+    <span class="big-flag">${flag(code)}</span>
     <h1>${esc(t.country.heading(name))}</h1>
     <p class="lead">${esc(t.country.count(stations.length))}</p>
     <nav class="genre-jump">
@@ -398,10 +399,26 @@ ${nav(lang)}
   return page({
     lang,
     path: '/404.html',
-    title: `${t.notFound.title} – Skywave`,
-    description: t.notFound.text,
+    // What link previews show for a station without a page of its own (they don't run scripts).
+    title: t.meta.title,
+    description: t.meta.description,
     body,
     noindex: true,
     scripts: ['/js/site.js'],
+    // A station's link without a page of its own: the App Store banner opens the app on it (Safari
+    // reads the banner while the page loads, so it's written right away), and the page is made
+    // from the station list (dynamic.mjs).
+    head: `<script>
+(function () {
+  if (!/\\/radio\\/[a-z0-9-]+\\/?$/i.test(location.pathname)) return;
+  document.documentElement.classList.add('making');
+  var url = location.href.split('#')[0].replace(/"/g, '%22');
+  document.write('<meta name="apple-itunes-app" content="app-id=${SITE.appId}, app-argument=' + url + '">');
+})();
+</script>
+<script type="module">
+import { renderStation } from '${SITE.asset('/js/lib/dynamic.mjs')}';
+renderStation(${JSON.stringify(siteConfig())});
+</script>`,
   });
 }

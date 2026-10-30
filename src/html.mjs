@@ -54,6 +54,7 @@ export function page({
   scripts = [],
   bodyClass = '',
   noindex = false,
+  head = '',
 }) {
   const t = T[lang];
   const url = SITE.abs(path);
@@ -68,6 +69,7 @@ export function page({
 <link rel="canonical" href="${url}">
 ${alternates ? Object.entries(alternates).map(([l, p]) => `<link rel="alternate" hreflang="${l}" href="${SITE.abs(p)}">`) : ''}
 ${noindex ? '<meta name="robots" content="noindex">' : ''}
+${head}
 <meta name="apple-itunes-app" content="app-id=${SITE.appId}${appArgument ? `, app-argument=${esc(appArgument)}` : ''}">
 <meta name="theme-color" content="#0A0A1C">
 <meta property="og:type" content="website">

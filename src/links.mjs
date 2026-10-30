@@ -27,3 +27,15 @@ export function slugify(name) {
 }
 
 export const stationSlug = (station) => `${slugify(station.name)}-${linkKey(station.id)}`;
+
+/** The station a slug names, from its key; the name settles the (unlikely) case of two. */
+export function findBySlug(slug, stations) {
+  const key = slug.slice(slug.lastIndexOf('-') + 1);
+  let found;
+  for (const s of stations) {
+    if (linkKey(s.id) !== key) continue;
+    if (stationSlug(s) === slug) return s;
+    found ??= s;
+  }
+  return found;
+}

@@ -1,21 +1,37 @@
 #!/usr/bin/env node
-// Builds the site into dist/: the landing page in each language, a page per station and per country,
+// Builds the site into dist/: the landing page in each language, a page for each of the most
+// popular stations (the others are made in the browser, see src/dynamic.mjs), a page per country,
 // the sitemap, and the universal links file. Stations come from the weekly list the app uses.
 //
 //   node build.mjs                      fetches stations.json from the CDN
 //   STATIONS_FILE=… node build.mjs      or reads a local copy
 //   SITE_URL=https://… APPLE_TEAM_ID=… node build.mjs
-import { cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { cpSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 
+import { STATIC_PAGES, prepare, relatedOf } from './src/catalog.mjs';
 import { LANGS, T } from './src/i18n.mjs';
-import { stationSlug } from './src/links.mjs';
 import { countryPath, landingPath, stationPath } from './src/html.mjs';
 import { countryPage, landingPage, notFoundPage, stationPage } from './src/pages.mjs';
-import { SITE } from './src/site.mjs';
+import { SITE, configureSite } from './src/site.mjs';
 
 const OUT = 'dist';
-const RELATED = 12;
+
+// Changes with any stylesheet or script (the browser's copy of src/ included).
+const version = createHash('sha1')
+  .update(
+    ['static/css', 'static/js', 'src']
+      .flatMap((dir) => readdirSync(dir).map((f) => readFileSync(join(dir, f))))
+      .join(''),
+  )
+  .digest('hex')
+  .slice(0, 10);
+configureSite({
+  siteUrl: process.env.SITE_URL || 'https://wndrlabs.github.io/airwave-website',
+  version,
+  teamId: process.env.APPLE_TEAM_ID,
+});
 
 async function loadStations() {
   if (process.env.STATIONS_FILE) return JSON.parse(readFileSync(process.env.STATIONS_FILE, 'utf8'));
@@ -30,28 +46,14 @@ function write(path, content) {
   writeFileSync(file, content);
 }
 
-const catalog = await loadStations();
-const countries = JSON.parse(readFileSync('data/countries.json', 'utf8'));
+const { stations, byCountry, clashes } = prepare(await loadStations());
+if (clashes) console.warn(`${clashes} station(s) left out: same name and id start as another`);
 const genreOrder = Object.keys(T.en.genres);
-
-// Slugs: unique by construction (name + id key); a clash would be two stations with the same name
-// and the same id start, which the app couldn't tell apart either, so the second one is left out.
-const bySlug = new Map();
-for (const s of catalog.stations) {
-  const slug = stationSlug(s);
-  if (bySlug.has(slug)) {
-    console.warn(`slug clash, skipped: ${slug} (${s.id})`);
-    continue;
-  }
-  bySlug.set(slug, { ...s, genres: s.genres ?? [], slug });
-}
-const stations = [...bySlug.values()].sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
-
-const byCountry = new Map();
-for (const s of stations) byCountry.set(s.country, [...(byCountry.get(s.country) ?? []), s]);
 
 rmSync(OUT, { recursive: true, force: true });
 cpSync('static', OUT, { recursive: true });
+// The templates, for the pages made in the browser.
+cpSync('src', join(OUT, 'js/lib'), { recursive: true });
 
 // Landing: two belts of logos, the most popular stations taken in turn from each country.
 const withLogo = [...byCountry.values()].map((list) => list.filter((s) => s.logo));
@@ -60,18 +62,16 @@ for (let i = 0; marquee.length < 40 && withLogo.some((l) => l[i]); i++) {
   for (const list of withLogo) if (list[i] && marquee.length < 40) marquee.push(list[i]);
 }
 for (const lang of LANGS) {
-  write(landingPath(lang), landingPage(lang, { marquee, countries, byCountry, total: stations.length }));
+  write(landingPath(lang), landingPage(lang, { marquee, byCountry, total: stations.length }));
 }
 
-for (const s of stations) {
-  const sameCountry = byCountry.get(s.country).filter((r) => r.id !== s.id);
-  const sameGenre = sameCountry.filter((r) => s.genres[0] && r.genres.includes(s.genres[0]));
-  const related = [...new Set([...sameGenre, ...sameCountry])].slice(0, RELATED);
-  write(stationPath(s.slug), stationPage(s, { related, countries, byCountry }));
+const withPage = stations.slice(0, STATIC_PAGES);
+for (const s of withPage) {
+  write(stationPath(s.slug), stationPage(s, { related: relatedOf(s, byCountry), byCountry }));
 }
 
 for (const [code, list] of byCountry) {
-  write(countryPath(code), countryPage(code, list, { countries, genreOrder }));
+  write(countryPath(code), countryPage(code, list, { genreOrder }));
 }
 
 write('404.html', notFoundPage());
@@ -101,7 +101,7 @@ if (SITE.base === '' && !/\.github\.io$|localhost|127\.0\.0\.1/.test(new URL(SIT
 const urls = [
   ...LANGS.map(landingPath),
   ...[...byCountry.keys()].map(countryPath),
-  ...stations.map((s) => stationPath(s.slug)),
+  ...withPage.map((s) => stationPath(s.slug)),
 ];
 write(
   'sitemap.xml',
@@ -114,5 +114,5 @@ ${urls.map((u) => `<url><loc>${SITE.abs(u)}</loc></url>`).join('\n')}
 write('robots.txt', `User-agent: *\nAllow: /\nSitemap: ${SITE.abs('/sitemap.xml')}\n`);
 
 console.log(
-  `${OUT}/: ${LANGS.length} landing pages, ${stations.length} stations, ${byCountry.size} countries · ${SITE.abs('/')}`,
+  `${OUT}/: ${LANGS.length} landing pages, ${withPage.length} of ${stations.length} station pages (the others made in the browser), ${byCountry.size} countries · ${SITE.abs('/')}`,
 );

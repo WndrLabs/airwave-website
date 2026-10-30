@@ -1,14 +1,17 @@
 # Skywave website
 
 The landing page of [Skywave](https://apps.apple.com/app/id6822921195) (English, French, German), a
-page per station with a mini player, and a page per country. Static HTML, built by `build.mjs` from
+page per station with a mini player, and a page per country. The 200 most popular stations have a
+page of their own (`STATIC_PAGES` in `src/catalog.mjs`, in the sitemap); the others are made in the
+browser: GitHub Pages answers their link with `404.html`, which reads the station list and renders
+the same template (`src/dynamic.mjs`). Static HTML, built by `build.mjs` from
 the weekly station list ([airwaves-stations](https://github.com/WndrLabs/airwaves-stations)) and
 deployed to GitHub Pages every day.
 
 ```sh
 node build.mjs                                            # into dist/, stations from the CDN
 STATIONS_FILE=../airwaves/data/stations.json SITE_URL=http://localhost:4173 node build.mjs
-cd dist && python3 -m http.server 4173                    # http://localhost:4173
+npm run serve                                             # http://localhost:4173, 404.html as on GitHub Pages
 ```
 
 ## Station links

@@ -1,8 +1,7 @@
 // Every text of the site, per language. English is the reference; French and German have the
-// same keys. Genre and country names come from the app (data/names.json).
-import { readFileSync } from 'node:fs';
-
-const NAMES = JSON.parse(readFileSync(new URL('../data/names.json', import.meta.url), 'utf8'));
+// same keys. Genre and country names come from the app (src/data.mjs). Runs in Node and in the
+// browser (pages of the less popular stations are made there).
+import { NAMES } from './data.mjs';
 
 export const LANGS = ['en', 'fr', 'de'];
 
