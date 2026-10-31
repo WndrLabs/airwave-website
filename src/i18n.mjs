@@ -72,7 +72,7 @@ const en = {
   },
   privacy: {
     title: 'No account. No ads. No tracking.',
-    text: 'Your favorites stay on your devices. Skywave doesn’t know who you are, and doesn’t want to.',
+    text: 'Your favorites stay on your devices. No data collected, no tracking: just the radio.',
   },
   countries: { title: 'Radio from 20 countries', text: 'Browse the stations of a country.' },
   cta: { title: 'Tune in.', text: 'Skywave is free on the App Store.' },
@@ -173,7 +173,7 @@ const fr = {
   },
   privacy: {
     title: 'Sans compte. Sans pub. Sans pistage.',
-    text: 'Vos favoris restent sur vos appareils. Skywave ne sait pas qui vous êtes, et ne veut pas le savoir.',
+    text: 'Vos favoris restent sur vos appareils. Aucune donnée collectée, aucun suivi : juste la radio.',
   },
   countries: { title: 'La radio de 20 pays', text: 'Parcourez les radios d’un pays.' },
   cta: { title: 'À l’écoute.', text: 'Skywave est gratuite sur l’App Store.' },
@@ -274,7 +274,7 @@ const de = {
   },
   privacy: {
     title: 'Kein Konto. Keine Werbung. Kein Tracking.',
-    text: 'Deine Favoriten bleiben auf deinen Geräten. Skywave weiß nicht, wer du bist – und will es auch nicht.',
+    text: 'Deine Favoriten bleiben auf deinen Geräten. Keine Daten, kein Tracking – einfach nur Radio.',
   },
   countries: { title: 'Radio aus 20 Ländern', text: 'Entdecke die Sender eines Landes.' },
   cta: { title: 'Einschalten.', text: 'Skywave ist kostenlos im App Store.' },
