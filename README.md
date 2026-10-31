@@ -29,11 +29,10 @@ When someone opens a station link:
 ## Setup
 
 1. **Pages**: Settings › Pages › Source: *GitHub Actions*.
-2. **Domain** (needed for universal links): Apple reads
-   `https://<domain>/.well-known/apple-app-site-association` at the root of a domain, which a
-   project page (`wndrlabs.github.io/airwave-website`) doesn't have. Point a domain at GitHub Pages,
-   then set the repository variable `SITE_URL` (e.g. `https://skywave.example`); the build writes
-   the `CNAME` file. Use the same address in the app (`SITE_URL` in `src/domain/links.ts`) and add
-   `applinks:<domain>` to its associated domains.
+2. **Domain**: the site lives at `https://skywave-radio.app` (`SITE_URL` in `build.mjs`, and in
+   the app's `app.config.ts`). DNS: `A` records to `185.199.108.153`, `.109.153`, `.110.153`,
+   `.111.153` (and `AAAA` to `2606:50c0:8000::153` … `8003::153`). Settings › Pages › Custom domain:
+   `skywave-radio.app`, then *Enforce HTTPS* (`.app` only works over HTTPS). Apple reads
+   `/.well-known/apple-app-site-association` there for universal links.
 3. **Team ID**: set the repository variable `APPLE_TEAM_ID` (Apple Developer › Membership). It's
    public (it's in every signed app), not a secret.

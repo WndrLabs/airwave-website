@@ -35,8 +35,8 @@ jobs:
         run: node build.mjs
         env:
           # Repository variables (Settings › Secrets and variables › Actions › Variables).
-          # Without SITE_URL, the GitHub Pages address of this repository.
-          SITE_URL: ${{ vars.SITE_URL || steps.pages.outputs.base_url }}
+          # Without SITE_URL, https://skywave-radio.app (build.mjs).
+          SITE_URL: ${{ vars.SITE_URL }}
           APPLE_TEAM_ID: ${{ vars.APPLE_TEAM_ID }}
       - uses: actions/upload-pages-artifact@v3
         with:

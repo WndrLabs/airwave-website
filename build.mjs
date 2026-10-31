@@ -28,7 +28,7 @@ const version = createHash('sha1')
   .digest('hex')
   .slice(0, 10);
 configureSite({
-  siteUrl: process.env.SITE_URL || 'https://wndrlabs.github.io/airwave-website',
+  siteUrl: process.env.SITE_URL || 'https://skywave-radio.app',
   version,
   teamId: process.env.APPLE_TEAM_ID,
 });
