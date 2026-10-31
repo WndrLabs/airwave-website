@@ -34,5 +34,5 @@ When someone opens a station link:
    `.111.153` (and `AAAA` to `2606:50c0:8000::153` … `8003::153`). Settings › Pages › Custom domain:
    `skywave-radio.app`, then *Enforce HTTPS* (`.app` only works over HTTPS). Apple reads
    `/.well-known/apple-app-site-association` there for universal links.
-3. **Team ID**: set the repository variable `APPLE_TEAM_ID` (Apple Developer › Membership). It's
+3. **Team ID**: 9Y74K9572E (`src/site.mjs`; the repository variable `APPLE_TEAM_ID` overrides it). It's
    public (it's in every signed app), not a secret.

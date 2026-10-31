@@ -11,7 +11,7 @@ export const SITE = {
   /** Changes whenever a stylesheet or script changes, so browsers fetch the new one. */
   version: '',
   /** Apple Team ID, for the universal links file (not a secret: it's in every signed app). */
-  teamId: 'TEAMID',
+  teamId: '9Y74K9572E',
   /** Path on this site (with the GitHub Pages project folder, when there is one). */
   url: (path) => `${SITE.base}${path}`,
   /** Full address, for links shared outside (canonical, social cards, sitemap). */
