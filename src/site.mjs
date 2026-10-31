@@ -10,6 +10,8 @@ export const SITE = {
   base: '',
   /** Changes whenever a stylesheet or script changes, so browsers fetch the new one. */
   version: '',
+  /** Christmas season (set by the build from its date): the Christmas pages are put forward. */
+  season: false,
   /** Apple Team ID, for the universal links file (not a secret: it's in every signed app). */
   teamId: '9Y74K9572E',
   /** Path on this site (with the GitHub Pages project folder, when there is one). */
@@ -27,13 +29,19 @@ export const SITE = {
   stationsUrl: 'https://cdn.jsdelivr.net/gh/WndrLabs/airwaves-stations@main/stations.json',
 };
 
-export function configureSite({ siteUrl, version, teamId }) {
+export function configureSite({ siteUrl, version, teamId, season = false }) {
   SITE.siteUrl = siteUrl.replace(/\/+$/, '');
   SITE.origin = new URL(SITE.siteUrl).origin;
   SITE.base = new URL(SITE.siteUrl).pathname.replace(/\/+$/, '');
   SITE.version = version;
   if (teamId) SITE.teamId = teamId;
+  SITE.season = season;
 }
 
 /** What the browser needs to make a page like build.mjs does. */
-export const siteConfig = () => ({ siteUrl: SITE.siteUrl, version: SITE.version, teamId: SITE.teamId });
+export const siteConfig = () => ({
+  siteUrl: SITE.siteUrl,
+  version: SITE.version,
+  teamId: SITE.teamId,
+  season: SITE.season,
+});

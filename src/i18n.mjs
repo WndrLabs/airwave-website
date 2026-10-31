@@ -15,7 +15,15 @@ const en = {
   langName: 'English',
   appStore: 'Download on the App Store',
   appStoreShort: 'App Store',
-  nav: { features: 'Features', carplay: 'CarPlay', mac: 'Mac', stations: 'Stations' },
+  nav: {
+    features: 'Features',
+    carplay: 'CarPlay',
+    mac: 'Mac',
+    stations: 'Stations',
+    xmas: 'Christmas',
+    xmasFooter: 'Christmas radio',
+  },
+  xmasBanner: { title: 'Christmas radio is on', text: 'Carols, crooners and Christmas hits, live from around the world.', cta: 'Listen' },
   meta: {
     title: 'Skywave – World radio, made for CarPlay',
     description:
@@ -79,6 +87,7 @@ const en = {
   footer: { privacy: 'Privacy', support: 'Support', made: 'Made with care by WndrLabs.' },
   station: {
     title: (name) => `${name} – Listen live`,
+    titleXmas: (name) => `${name} – Christmas radio, listen live free`,
     description: (name, country, genres) =>
       `Listen to ${name} live, the official stream from ${country}${genres ? ` (${genres})` : ''}. Free on iPhone, CarPlay and Mac with Skywave.`,
     live: 'Live',
@@ -101,6 +110,8 @@ const en = {
     description: (country, n) =>
       `${n} official radio stations from ${country}, sorted by genre. Listen live for free with Skywave on iPhone, CarPlay and Mac.`,
     heading: (country) => `Radio in ${country}`,
+    intro: (country, n, top) =>
+      `Listen live to ${n} radio stations from ${country}, free: ${top} and many more, sorted by genre. Every stream comes from the broadcaster itself and is checked every week. In Skywave, they play on iPhone, in the car with CarPlay and on Mac.`,
     count: (n) => `${n} stations`,
   },
   notFound: {
@@ -116,7 +127,15 @@ const fr = {
   langName: 'Français',
   appStore: 'Télécharger dans l’App Store',
   appStoreShort: 'App Store',
-  nav: { features: 'Fonctions', carplay: 'CarPlay', mac: 'Mac', stations: 'Radios' },
+  nav: {
+    features: 'Fonctions',
+    carplay: 'CarPlay',
+    mac: 'Mac',
+    stations: 'Radios',
+    xmas: 'Noël',
+    xmasFooter: 'Radios de Noël',
+  },
+  xmasBanner: { title: 'Les radios de Noël sont là', text: 'Chants de Noël, crooners et tubes de fêtes, en direct du monde entier.', cta: 'Écouter' },
   meta: {
     title: 'Skywave – La radio du monde, pensée pour CarPlay',
     description:
@@ -180,6 +199,7 @@ const fr = {
   footer: { privacy: 'Confidentialité', support: 'Assistance', made: 'Fait avec soin par WndrLabs.' },
   station: {
     title: (name) => `${name} – Écouter en direct`,
+    titleXmas: (name) => `${name} – Radio de Noël en direct et gratuite`,
     description: (name, country, genres) =>
       `Écoutez ${name} en direct, le flux officiel (${country}${genres ? `, ${genres}` : ''}). Gratuit sur iPhone, CarPlay et Mac avec Skywave.`,
     live: 'En direct',
@@ -202,6 +222,8 @@ const fr = {
     description: (country, n) =>
       `${n} radios officielles (${country}), rangées par genre. Écoutez‑les gratuitement en direct avec Skywave sur iPhone, CarPlay et Mac.`,
     heading: (country) => `Radios · ${country}`,
+    intro: (country, n, top) =>
+      `Écoutez gratuitement ${n} radios en direct (${country}) : ${top} et bien d’autres, rangées par genre. Chaque flux vient du diffuseur lui‑même et il est vérifié chaque semaine. Dans Skywave, elles s’écoutent sur iPhone, en voiture avec CarPlay et sur Mac.`,
     count: (n) => `${n} radios`,
   },
   notFound: {
@@ -217,7 +239,15 @@ const de = {
   langName: 'Deutsch',
   appStore: 'Laden im App Store',
   appStoreShort: 'App Store',
-  nav: { features: 'Funktionen', carplay: 'CarPlay', mac: 'Mac', stations: 'Sender' },
+  nav: {
+    features: 'Funktionen',
+    carplay: 'CarPlay',
+    mac: 'Mac',
+    stations: 'Sender',
+    xmas: 'Weihnachten',
+    xmasFooter: 'Weihnachtsradio',
+  },
+  xmasBanner: { title: 'Weihnachtsradio ist da', text: 'Weihnachtslieder, Crooner und Hits zum Fest – live aus aller Welt.', cta: 'Reinhören' },
   meta: {
     title: 'Skywave – Radio weltweit, gemacht für CarPlay',
     description:
@@ -281,6 +311,7 @@ const de = {
   footer: { privacy: 'Datenschutz', support: 'Hilfe', made: 'Mit Sorgfalt gemacht von WndrLabs.' },
   station: {
     title: (name) => `${name} – Live hören`,
+    titleXmas: (name) => `${name} – Weihnachtsradio kostenlos live hören`,
     description: (name, country, genres) =>
       `Höre ${name} live, der offizielle Stream (${country}${genres ? `, ${genres}` : ''}). Kostenlos auf iPhone, CarPlay und Mac mit Skywave.`,
     live: 'Live',
@@ -303,6 +334,8 @@ const de = {
     description: (country, n) =>
       `${n} offizielle Radiosender (${country}), nach Genre sortiert. Kostenlos live hören mit Skywave auf iPhone, CarPlay und Mac.`,
     heading: (country) => `Radio · ${country}`,
+    intro: (country, n, top) =>
+      `Höre ${n} Radiosender (${country}) kostenlos live: ${top} und viele mehr, nach Genre sortiert. Jeder Stream kommt direkt vom Sender und wird jede Woche geprüft. In Skywave laufen sie auf dem iPhone, im Auto mit CarPlay und auf dem Mac.`,
     count: (n) => `${n} Sender`,
   },
   notFound: {

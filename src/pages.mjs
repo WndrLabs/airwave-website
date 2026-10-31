@@ -1,6 +1,7 @@
 // The site's pages: the landing page (one per language), a page per station, a page per country.
 import { LANGS, T, langOf } from './i18n.mjs';
 import {
+  XMAS_PATHS,
   appStoreBadge,
   countryPath,
   esc,
@@ -91,6 +92,9 @@ ${nav(lang, { landing: true })}
     </div>
     <div class="hero-wave" data-speed="0.25">${waveSvg('hero')}</div>
     <div class="hero-copy">
+    ${SITE.season
+    ? html`<a class="xmas-banner" href="${SITE.url(XMAS_PATHS[lang])}"><span class="xmas-tree" aria-hidden="true">🎄</span><span><b>${t.xmasBanner.title}</b> ${t.xmasBanner.text}</span><span class="xmas-go">${t.xmasBanner.cta} →</span></a>`
+    : ''}
       <p class="kicker reveal">${t.hero.kicker}</p>
       <h1 class="reveal"><span>${t.hero.title[0]}</span> <span class="grad">${t.hero.title[1]}</span></h1>
       <p class="lead reveal">${t.hero.text}</p>
@@ -252,7 +256,12 @@ export function stationPage(station, { related, byCountry }) {
   const path = stationPath(station.slug);
   const [from, to] = palette(station.genres[0]);
   const mainGenre = genres[0];
-  const relatedTitle = mainGenre ? s.more(mainGenre, country) : s.moreCountry(country);
+  const xmas = station.genres.includes('christmas');
+  const relatedTitle = xmas
+    ? t.nav.xmasFooter
+    : mainGenre
+      ? s.more(mainGenre, country)
+      : s.moreCountry(country);
   const countryCount = byCountry.get(station.country)?.length ?? 0;
 
   const body = html`
@@ -301,7 +310,7 @@ ${nav(lang)}
         (r) => `<a class="station-card" href="${SITE.url(stationPath(r.slug))}">${logo(r, 56)}<span>${esc(r.name)}</span></a>`,
       )}
     </div>
-    <p><a class="more-link" href="${SITE.url(countryPath(station.country))}">${esc(s.allIn(country))} · ${esc(t.country.count(countryCount))} →</a></p>
+    <p>${xmas ? `<a class="more-link" href="${SITE.url(XMAS_PATHS[lang])}">🎄 ${esc(t.nav.xmasFooter)} →</a>` : `<a class="more-link" href="${SITE.url(countryPath(station.country))}">${esc(s.allIn(country))} · ${esc(t.country.count(countryCount))} →</a>`}</p>
   </section>`
     : ''}
 
@@ -313,7 +322,7 @@ ${nav(lang)}
   return page({
     lang,
     path,
-    title: s.title(station.name),
+    title: xmas ? s.titleXmas(station.name) : s.title(station.name),
     description: s.description(station.name, country, genres.join(', ')),
     image: station.logo ?? '/img/og.png',
     imageAlt: station.name,
@@ -352,7 +361,7 @@ ${nav(lang)}
   <header class="country-head">
     <span class="big-flag">${flag(code)}</span>
     <h1>${esc(t.country.heading(name))}</h1>
-    <p class="lead">${esc(t.country.count(stations.length))}</p>
+    <p class="lead">${esc(t.country.intro(name, stations.length, stations.slice(0, 3).map((s) => s.name).join(', ')))}</p>
     <nav class="genre-jump">
       ${order.map((g) => `<a href="#${g}" style="--from:${palette(g)[0]};--to:${palette(g)[1]}">${esc(t.genres[g] ?? g)}</a>`)}
     </nav>

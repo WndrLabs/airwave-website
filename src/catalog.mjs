@@ -2,8 +2,13 @@
 // build.mjs and the pages made in the browser (dynamic.mjs).
 import { stationSlug } from './links.mjs';
 
-/** The most popular stations get a page of their own; the others are made in the browser. */
+/**
+ * Stations with a page of their own (indexed by search engines): the most popular, the first few of
+ * each country, and every Christmas station. The others are made in the browser.
+ */
 export const STATIC_PAGES = 200;
+const STATIC_PER_COUNTRY = 10;
+export const isChristmas = (s) => s.genres.includes('christmas');
 const RELATED = 12;
 
 export function prepare(catalog) {
@@ -17,11 +22,26 @@ export function prepare(catalog) {
   const stations = [...bySlug.values()].sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
   const byCountry = new Map();
   for (const s of stations) byCountry.set(s.country, [...(byCountry.get(s.country) ?? []), s]);
-  return { stations, byCountry, clashes: catalog.stations.length - stations.length };
+  const christmas = stations.filter(isChristmas);
+  return { stations, byCountry, christmas, clashes: catalog.stations.length - stations.length };
 }
 
-/** Stations to suggest on a station's page: same country, same genre first. */
-export function relatedOf(station, byCountry) {
+export function staticStations({ stations, byCountry, christmas }) {
+  return [
+    ...new Set([
+      ...stations.slice(0, STATIC_PAGES),
+      ...[...byCountry.values()].flatMap((list) => list.slice(0, STATIC_PER_COUNTRY)),
+      ...christmas,
+    ]),
+  ];
+}
+
+/**
+ * Stations to suggest on a station's page: same country, same genre first. For a Christmas
+ * station, the other Christmas stations, wherever they are.
+ */
+export function relatedOf(station, { byCountry, christmas }) {
+  if (isChristmas(station)) return christmas.filter((r) => r.id !== station.id).slice(0, RELATED);
   const sameCountry = byCountry.get(station.country).filter((r) => r.id !== station.id);
   const main = station.genres[0];
   const sameGenre = main ? sameCountry.filter((r) => r.genres.includes(main)) : [];

@@ -10,9 +10,10 @@ import { createHash } from 'node:crypto';
 import { cpSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 
-import { STATIC_PAGES, prepare, relatedOf } from './src/catalog.mjs';
+import { prepare, relatedOf, staticStations } from './src/catalog.mjs';
+import { christmasPage, isChristmasSeason } from './src/christmas.mjs';
 import { LANGS, T } from './src/i18n.mjs';
-import { countryPath, landingPath, stationPath } from './src/html.mjs';
+import { XMAS_PATHS, countryPath, esc, landingPath, legacyCountryPath, stationPath } from './src/html.mjs';
 import { countryPage, landingPage, notFoundPage, stationPage } from './src/pages.mjs';
 import { SITE, configureSite } from './src/site.mjs';
 
@@ -31,6 +32,8 @@ configureSite({
   siteUrl: process.env.SITE_URL || 'https://skywave-radio.app',
   version,
   teamId: process.env.APPLE_TEAM_ID,
+  // SEASON=1 or 0 forces it (to preview the site out of season).
+  season: process.env.SEASON ? process.env.SEASON === '1' : isChristmasSeason(),
 });
 
 async function loadStations() {
@@ -46,7 +49,8 @@ function write(path, content) {
   writeFileSync(file, content);
 }
 
-const { stations, byCountry, clashes } = prepare(await loadStations());
+const catalog = prepare(await loadStations());
+const { stations, byCountry, christmas, clashes } = catalog;
 if (clashes) console.warn(`${clashes} station(s) left out: same name and id start as another`);
 const genreOrder = Object.keys(T.en.genres);
 
@@ -65,13 +69,21 @@ for (const lang of LANGS) {
   write(landingPath(lang), landingPage(lang, { marquee, byCountry, total: stations.length }));
 }
 
-const withPage = stations.slice(0, STATIC_PAGES);
+const withPage = staticStations(catalog);
 for (const s of withPage) {
-  write(stationPath(s.slug), stationPage(s, { related: relatedOf(s, byCountry), byCountry }));
+  write(stationPath(s.slug), stationPage(s, { related: relatedOf(s, catalog), byCountry }));
 }
+
+for (const lang of LANGS) write(XMAS_PATHS[lang], christmasPage(lang, christmas));
 
 for (const [code, list] of byCountry) {
   write(countryPath(code), countryPage(code, list, { genreOrder }));
+  // The first address of country pages (/country/jp/) leads to the new one.
+  const to = SITE.abs(countryPath(code));
+  write(
+    legacyCountryPath(code),
+    `<!doctype html><meta charset="utf-8"><title>Skywave</title><link rel="canonical" href="${esc(to)}"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0; url=${esc(to)}"><script>location.replace(${JSON.stringify(to)})</script><a href="${esc(to)}">${esc(to)}</a>\n`,
+  );
 }
 
 write('404.html', notFoundPage());
@@ -100,19 +112,21 @@ if (SITE.base === '' && !/\.github\.io$|localhost|127\.0\.0\.1/.test(new URL(SIT
 
 const urls = [
   ...LANGS.map(landingPath),
+  ...LANGS.map((l) => XMAS_PATHS[l]),
   ...[...byCountry.keys()].map(countryPath),
   ...withPage.map((s) => stationPath(s.slug)),
 ];
+const today = new Date().toISOString().slice(0, 10);
 write(
   'sitemap.xml',
   `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map((u) => `<url><loc>${SITE.abs(u)}</loc></url>`).join('\n')}
+${urls.map((u) => `<url><loc>${SITE.abs(u)}</loc><lastmod>${today}</lastmod></url>`).join('\n')}
 </urlset>
 `,
 );
 write('robots.txt', `User-agent: *\nAllow: /\nSitemap: ${SITE.abs('/sitemap.xml')}\n`);
 
 console.log(
-  `${OUT}/: ${LANGS.length} landing pages, ${withPage.length} of ${stations.length} station pages (the others made in the browser), ${byCountry.size} countries · ${SITE.abs('/')}`,
+  `${OUT}/: ${LANGS.length} landing pages, ${withPage.length} of ${stations.length} station pages (the others made in the browser), ${christmas.length} Christmas stations${SITE.season ? ' (in season)' : ''}, ${byCountry.size} countries · ${SITE.abs('/')}`,
 );

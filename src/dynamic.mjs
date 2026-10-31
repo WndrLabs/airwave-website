@@ -16,12 +16,13 @@ export async function renderStation(config) {
   try {
     const res = await fetch(SITE.stationsUrl);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const { stations, byCountry } = prepare(await res.json());
+    const catalog = prepare(await res.json());
+    const { stations, byCountry } = catalog;
     const station = findBySlug(slug, stations);
     if (!station) throw new Error('No such station');
     // A renamed station: its current link.
     if (station.slug !== slug) history.replaceState(null, '', SITE.url(stationPath(station.slug)));
-    const page = stationPage(station, { related: relatedOf(station, byCountry), byCountry });
+    const page = stationPage(station, { related: relatedOf(station, catalog), byCountry });
     document.open();
     document.write(page);
     document.close();

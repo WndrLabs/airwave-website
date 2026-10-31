@@ -1,5 +1,7 @@
 // Small helpers shared by the page templates.
+import { NAMES } from './data.mjs';
 import { LANGS, T } from './i18n.mjs';
+import { slugify } from './links.mjs';
 import { SITE } from './site.mjs';
 
 const ESCAPES = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
@@ -13,7 +15,12 @@ export const html = (strings, ...values) =>
   });
 
 export const landingPath = (lang) => (lang === 'en' ? '/' : `/${lang}/`);
-export const countryPath = (code) => `/country/${code.toLowerCase()}/`;
+/** A country's page, by its English name: /radios/japan/, /radios/cote-d-ivoire/. */
+export const countryPath = (code) => `/radios/${slugify(NAMES.en.countries[code] ?? code)}/`;
+/** Where country pages were first (/country/jp/): they now redirect. */
+export const legacyCountryPath = (code) => `/country/${code.toLowerCase()}/`;
+/** The Christmas radio page, in each language. */
+export const XMAS_PATHS = { en: '/christmas-radio/', fr: '/fr/radio-noel/', de: '/de/weihnachtsradio/' };
 export const stationPath = (slug) => `/radio/${slug}/`;
 
 /** Apple's own App Store badge, in the page's language; a drawn one if Apple's can't load. */
@@ -80,7 +87,7 @@ ${head}
 <meta property="og:url" content="${url}">
 <meta property="og:image" content="${esc(img)}">
 ${imageAlt ? `<meta property="og:image:alt" content="${esc(imageAlt)}">` : ''}
-<meta name="twitter:card" content="${image === '/img/og.png' ? 'summary_large_image' : 'summary'}">
+<meta name="twitter:card" content="${image.startsWith('/img/') ? 'summary_large_image' : 'summary'}">
 <link rel="icon" href="${SITE.url('/img/icon-64.png')}" type="image/png">
 <link rel="apple-touch-icon" href="${SITE.url('/img/icon-180.png')}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -109,6 +116,7 @@ export function nav(lang, { landing = false } = {}) {
     <a href="${anchor('carplay')}">${t.nav.carplay}</a>
     <a href="${anchor('mac')}">${t.nav.mac}</a>
     <a href="${anchor('stations')}">${t.nav.stations}</a>
+    ${SITE.season ? `<a class="nav-xmas" href="${SITE.url(XMAS_PATHS[lang])}">🎄 ${t.nav.xmas}</a>` : ''}
   </nav>
   <a class="nav-cta" href="${SITE.appStore}">${t.appStoreShort}</a>
 </header>`;
@@ -123,6 +131,7 @@ function footer(lang, alternates) {
     <nav class="footer-links">
       <a href="${SITE.privacy}">${t.footer.privacy}</a>
       <a href="${SITE.support}">${t.footer.support}</a>
+      <a href="${SITE.url(XMAS_PATHS[lang])}">${t.nav.xmasFooter}</a>
       <a href="${SITE.appStore}">${t.appStoreShort}</a>
     </nav>
     <nav class="footer-langs" aria-label="Language">
