@@ -14,6 +14,12 @@ STATIONS_FILE=../airwaves/data/stations.json SITE_URL=http://localhost:4173 node
 npm run serve                                             # http://localhost:4173, 404.html as on GitHub Pages
 ```
 
+## Privacy policy and support
+
+`/privacy/` and `/support/` (and in French and German: `/fr/confidentialite/`, `/fr/assistance/`,
+`/de/datenschutz/`, `/de/hilfe/`), in `src/docs.mjs`. App Store Connect links to them for the
+iPhone and Mac apps (the app's `store.config.json` and `store.mac.config.json`): keep the addresses.
+
 ## Station links
 
 Every station has one link, `/radio/<name>-<key>/`, e.g. `/radio/skyrock-01b61e49/`. The key is the

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Builds the site into dist/: the landing page in each language, a page for each of the most
-// popular stations (the others are made in the browser, see src/dynamic.mjs), a page per country,
+// Builds the site into dist/: the landing page in each language, the privacy policy and support
+// page, a page for each of the most popular stations (the others are made in the browser, see src/dynamic.mjs), a page per country,
 // the sitemap, and the universal links file. Stations come from the weekly list the app uses.
 //
 //   node build.mjs                      fetches stations.json from the CDN
@@ -12,6 +12,7 @@ import { dirname, join } from 'node:path';
 
 import { prepare, relatedOf, staticStations } from './src/catalog.mjs';
 import { christmasPage, isChristmasSeason } from './src/christmas.mjs';
+import { docPages } from './src/docs.mjs';
 import { LANGS, T } from './src/i18n.mjs';
 import { XMAS_PATHS, countryPath, esc, landingPath, legacyCountryPath, stationPath } from './src/html.mjs';
 import { countryPage, landingPage, notFoundPage, stationPage } from './src/pages.mjs';
@@ -86,6 +87,8 @@ for (const [code, list] of byCountry) {
   );
 }
 
+for (const [path, content] of docPages()) write(path, content);
+
 write('404.html', notFoundPage());
 
 // Universal links: /radio/… opens the app when it's installed (needs the site at a domain's root).
@@ -113,6 +116,7 @@ if (SITE.base === '' && !/\.github\.io$|localhost|127\.0\.0\.1/.test(new URL(SIT
 const urls = [
   ...LANGS.map(landingPath),
   ...LANGS.map((l) => XMAS_PATHS[l]),
+  ...docPages().map(([path]) => path),
   ...[...byCountry.keys()].map(countryPath),
   ...withPage.map((s) => stationPath(s.slug)),
 ];

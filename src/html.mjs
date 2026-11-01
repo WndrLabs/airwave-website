@@ -22,6 +22,9 @@ export const legacyCountryPath = (code) => `/country/${code.toLowerCase()}/`;
 /** The Christmas radio page, in each language. */
 export const XMAS_PATHS = { en: '/christmas-radio/', fr: '/fr/radio-noel/', de: '/de/weihnachtsradio/' };
 export const stationPath = (slug) => `/radio/${slug}/`;
+/** The privacy policy and the support page (src/docs.mjs), in each language. App Store Connect links to them. */
+export const PRIVACY_PATHS = { en: '/privacy/', fr: '/fr/confidentialite/', de: '/de/datenschutz/' };
+export const SUPPORT_PATHS = { en: '/support/', fr: '/fr/assistance/', de: '/de/hilfe/' };
 
 /** Apple's own App Store badge, in the page's language; a drawn one if Apple's can't load. */
 export function appStoreBadge(lang, { height = 54 } = {}) {
@@ -129,8 +132,8 @@ function footer(lang, alternates) {
   <div class="footer-in">
     <a class="brand" href="${SITE.url(landingPath(lang))}"><img src="${SITE.url('/img/icon-64.png')}" alt="" width="28" height="28"><span>Skywave</span></a>
     <nav class="footer-links">
-      <a href="${SITE.privacy}">${t.footer.privacy}</a>
-      <a href="${SITE.support}">${t.footer.support}</a>
+      <a href="${SITE.url(PRIVACY_PATHS[lang])}">${t.footer.privacy}</a>
+      <a href="${SITE.url(SUPPORT_PATHS[lang])}">${t.footer.support}</a>
       <a href="${SITE.url(XMAS_PATHS[lang])}">${t.nav.xmasFooter}</a>
       <a href="${SITE.appStore}">${t.appStoreShort}</a>
     </nav>

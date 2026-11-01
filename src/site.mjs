@@ -24,8 +24,6 @@ export const SITE = {
   /** Opens the app on a station (the app's URL scheme, see app.config.ts). */
   appLink: (slug) => `skywave://radio/${slug}`,
   bundleId: 'com.wndrlabs.airwaves',
-  privacy: 'https://github.com/WndrLabs/airwaves-stations/blob/main/PRIVACY.md',
-  support: 'https://github.com/WndrLabs/airwaves-stations/blob/main/SUPPORT.md',
   stationsUrl: 'https://cdn.jsdelivr.net/gh/WndrLabs/airwaves-stations@main/stations.json',
 };
 
