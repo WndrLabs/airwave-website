@@ -30,7 +30,7 @@ const PRIVACY = {
     <ul>
       <li>a station viewed, played or added to your favorites: its name, country and genre, where it was started from (genres, search, favorites, CarPlay, Siri, a link) and the platform (iPhone, CarPlay, Mac, Android or website);</li>
       <li>the app opened from a station link;</li>
-      <li>whether a search found something, never what you typed.</li>
+      <li>a search: what you searched for, cleaned and cut to its first 20 characters (without e-mail or web addresses, nor long numbers), and whether it found something.</li>
     </ul>
     <p>No identifier of you or your device is stored or sent. Umami tells visits apart with a hash of your IP address and of your browser or system, which it doesn’t keep. These statistics are not sold, not shared and not used for advertising.</p>
   </li>
@@ -62,7 +62,7 @@ const PRIVACY = {
     <ul>
       <li>une radio affichée, écoutée ou ajoutée aux favoris : son nom, son pays et son genre, d’où elle a été lancée (genres, recherche, favoris, CarPlay, Siri, un lien) et la plateforme (iPhone, CarPlay, Mac, Android ou site) ;</li>
       <li>l’ouverture de l’app depuis le lien d’une radio ;</li>
-      <li>si une recherche a trouvé quelque chose, jamais ce que vous avez tapé.</li>
+      <li>une recherche : ce que vous avez cherché, nettoyé et limité à ses 20 premiers caractères (sans adresse e-mail ou web, ni long numéro), et si elle a trouvé quelque chose.</li>
     </ul>
     <p>Aucun identifiant vous concernant, vous ou votre appareil, n’est conservé ni envoyé. Umami distingue les visites grâce à une empreinte de votre adresse IP et de votre navigateur ou système, qu’il ne conserve pas. Ces statistiques ne sont ni vendues, ni partagées, ni utilisées pour de la publicité.</p>
   </li>
@@ -94,7 +94,7 @@ const PRIVACY = {
     <ul>
       <li>ein Sender, der angezeigt, abgespielt oder zu den Favoriten hinzugefügt wird: sein Name, Land und Genre, wo er gestartet wurde (Genres, Suche, Favoriten, CarPlay, Siri, ein Link) und die Plattform (iPhone, CarPlay, Mac, Android oder Website);</li>
       <li>das Öffnen der App über den Link eines Senders;</li>
-      <li>ob eine Suche etwas gefunden hat, nie, was du eingegeben hast.</li>
+      <li>eine Suche: wonach du gesucht hast, bereinigt und auf die ersten 20 Zeichen gekürzt (ohne E-Mail- oder Webadressen und lange Nummern), und ob sie etwas gefunden hat.</li>
     </ul>
     <p>Es wird keine Kennung von dir oder deinem Gerät gespeichert oder gesendet. Umami unterscheidet Besuche anhand eines Hashwerts deiner IP-Adresse und deines Browsers oder Systems, den es nicht speichert. Diese Statistiken werden weder verkauft noch weitergegeben noch für Werbung genutzt.</p>
   </li>
