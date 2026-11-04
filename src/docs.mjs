@@ -8,7 +8,8 @@ import { SITE } from './site.mjs';
 const ISSUES = 'https://github.com/WndrLabs/airwaves-stations/issues';
 const NEW_ISSUE = `${ISSUES}/new`;
 const STATIONS_REPO = 'https://github.com/WndrLabs/airwaves-stations';
-const UPDATED = '2026-11-01';
+const UMAMI = 'https://umami.is/privacy';
+const UPDATED = '2026-11-04';
 
 const link = (href, text) => `<a href="${href}">${text}</a>`;
 const date = (lang) =>
@@ -19,71 +20,98 @@ const date = (lang) =>
 const PRIVACY = {
   en: {
     title: 'Privacy policy',
-    meta: 'Skywave collects no personal data: no account, no ads, no analytics, no tracking.',
+    meta: 'Skywave collects no personal data: no account, no ads, no tracking, only anonymous statistics.',
     updated: (d) => `Last updated: ${d}`,
     body: () => html`
 <p class="doc-lead">Skywave (iPhone, CarPlay and Mac) collects no personal data.</p>
 <ul>
-  <li><strong>No account, no ads, no analytics, no tracking.</strong> The app contains no advertising or analytics SDK.</li>
+  <li><strong>No account, no ads, no tracking.</strong> The app contains no advertising SDK, and nothing follows you across other apps or websites.</li>
+  <li><strong>Anonymous statistics.</strong> To know which stations are listened to and which features are used, the app (iPhone and CarPlay) and this website count a few events with ${link(UMAMI, 'Umami')}, without cookies:
+    <ul>
+      <li>a station viewed, played or added to your favorites: its name, country and genre, where it was started from (genres, search, favorites, CarPlay, Siri, a link) and the platform (iPhone, CarPlay, Android or website);</li>
+      <li>the app opened from a station link;</li>
+      <li>whether a search found something, never what you typed.</li>
+    </ul>
+    <p>No identifier of you or your device is stored or sent. Umami tells visits apart with a hash of your IP address and of your browser or system, which it doesn’t keep. These statistics are not sold, not shared and not used for advertising.</p>
+  </li>
   <li><strong>Your favorites, recent stations and settings stay on your device.</strong> They are never sent to us.</li>
   <li><strong>What the app connects to, and why:</strong>
     <ul>
       <li>the radio stations’ own streaming servers, to play the station you choose;</li>
       <li>our ${link(STATIONS_REPO, 'public station list')} (through jsDelivr or GitHub), to download the station list;</li>
       <li>Radio Browser (radio-browser.info), when you search for a station that isn’t in the list;</li>
-      <li>the iTunes Search API (Apple), to show the cover of the song on air.</li>
+      <li>the iTunes Search API (Apple), to show the cover of the song on air;</li>
+      <li>Umami, for the anonymous statistics above.</li>
     </ul>
     <p>These requests carry no identifier of you or your device. Like any web request, they reach those servers from your IP address; their own privacy policies apply.</p>
   </li>
   <li><strong>Notifications (Mac):</strong> song banners are created on your Mac and are not sent anywhere.</li>
 </ul>
-<p>We don’t sell, share or store any data about you, because we don’t have any.</p>
+<p>We don’t sell or share any data, and we don’t keep any data about you: the statistics above are anonymous counts.</p>
 <p>Questions: ${link(ISSUES, 'open an issue')}.</p>`,
   },
   fr: {
     title: 'Politique de confidentialité',
-    meta: 'Skywave ne collecte aucune donnée personnelle : sans compte, sans publicité, sans statistiques, sans pistage.',
+    meta: 'Skywave ne collecte aucune donnée personnelle : sans compte, sans publicité, sans pistage, seulement des statistiques anonymes.',
     updated: (d) => `Dernière mise à jour : ${d}`,
     body: () => html`
 <p class="doc-lead">Skywave (iPhone, CarPlay et Mac) ne collecte aucune donnée personnelle.</p>
 <ul>
-  <li><strong>Sans compte, sans publicité, sans statistiques, sans pistage.</strong> L’app ne contient aucun outil de publicité ni de mesure d’audience.</li>
+  <li><strong>Sans compte, sans publicité, sans pistage.</strong> L’app ne contient aucun outil publicitaire, et rien ne vous suit d’une app ou d’un site à l’autre.</li>
+  <li><strong>Statistiques anonymes.</strong> Pour savoir quelles radios sont écoutées et quelles fonctions servent, l’app (iPhone et CarPlay) et ce site comptent quelques événements avec ${link(UMAMI, 'Umami')}, sans cookie :
+    <ul>
+      <li>une radio affichée, écoutée ou ajoutée aux favoris : son nom, son pays et son genre, d’où elle a été lancée (genres, recherche, favoris, CarPlay, Siri, un lien) et la plateforme (iPhone, CarPlay, Android ou site) ;</li>
+      <li>l’ouverture de l’app depuis le lien d’une radio ;</li>
+      <li>si une recherche a trouvé quelque chose, jamais ce que vous avez tapé.</li>
+    </ul>
+    <p>Aucun identifiant vous concernant, vous ou votre appareil, n’est conservé ni envoyé. Umami distingue les visites grâce à une empreinte de votre adresse IP et de votre navigateur ou système, qu’il ne conserve pas. Ces statistiques ne sont ni vendues, ni partagées, ni utilisées pour de la publicité.</p>
+  </li>
   <li><strong>Vos favoris, vos radios récentes et vos réglages restent sur votre appareil.</strong> Ils ne nous sont jamais envoyés.</li>
   <li><strong>Ce à quoi l’app se connecte, et pourquoi :</strong>
     <ul>
       <li>les serveurs de diffusion des radios elles‑mêmes, pour écouter la radio choisie ;</li>
       <li>notre ${link(STATIONS_REPO, 'liste publique des radios')} (via jsDelivr ou GitHub), pour télécharger la liste des radios ;</li>
       <li>Radio Browser (radio-browser.info), quand vous cherchez une radio absente de la liste ;</li>
-      <li>l’API iTunes Search (Apple), pour afficher la pochette du titre en cours.</li>
+      <li>l’API iTunes Search (Apple), pour afficher la pochette du titre en cours ;</li>
+      <li>Umami, pour les statistiques anonymes ci-dessus.</li>
     </ul>
     <p>Ces requêtes ne contiennent aucun identifiant vous concernant. Comme toute requête web, elles parviennent à ces serveurs depuis votre adresse IP ; leurs propres politiques de confidentialité s’appliquent.</p>
   </li>
   <li><strong>Notifications (Mac) :</strong> les bannières des titres sont créées sur votre Mac et ne sont envoyées nulle part.</li>
 </ul>
-<p>Nous ne vendons, ne partageons ni ne conservons aucune donnée vous concernant : nous n’en avons pas.</p>
+<p>Nous ne vendons ni ne partageons aucune donnée, et ne conservons aucune donnée vous concernant : les statistiques ci-dessus sont des comptages anonymes.</p>
 <p>Questions : ${link(ISSUES, 'ouvrez un ticket')}.</p>`,
   },
   de: {
     title: 'Datenschutzerklärung',
-    meta: 'Skywave erhebt keine personenbezogenen Daten: kein Konto, keine Werbung, keine Statistiken, kein Tracking.',
+    meta: 'Skywave erhebt keine personenbezogenen Daten: kein Konto, keine Werbung, kein Tracking, nur anonyme Statistiken.',
     updated: (d) => `Zuletzt aktualisiert: ${d}`,
     body: () => html`
 <p class="doc-lead">Skywave (iPhone, CarPlay und Mac) erhebt keine personenbezogenen Daten.</p>
 <ul>
-  <li><strong>Kein Konto, keine Werbung, keine Statistiken, kein Tracking.</strong> Die App enthält keine Werbe- oder Analyse-SDKs.</li>
+  <li><strong>Kein Konto, keine Werbung, kein Tracking.</strong> Die App enthält keine Werbe-SDKs, und nichts verfolgt dich über andere Apps oder Websites.</li>
+  <li><strong>Anonyme Statistiken.</strong> Um zu wissen, welche Sender gehört und welche Funktionen genutzt werden, zählen die App (iPhone und CarPlay) und diese Website einige Ereignisse mit ${link(UMAMI, 'Umami')}, ohne Cookies:
+    <ul>
+      <li>ein Sender, der angezeigt, abgespielt oder zu den Favoriten hinzugefügt wird: sein Name, Land und Genre, wo er gestartet wurde (Genres, Suche, Favoriten, CarPlay, Siri, ein Link) und die Plattform (iPhone, CarPlay, Android oder Website);</li>
+      <li>das Öffnen der App über den Link eines Senders;</li>
+      <li>ob eine Suche etwas gefunden hat, nie, was du eingegeben hast.</li>
+    </ul>
+    <p>Es wird keine Kennung von dir oder deinem Gerät gespeichert oder gesendet. Umami unterscheidet Besuche anhand eines Hashwerts deiner IP-Adresse und deines Browsers oder Systems, den es nicht speichert. Diese Statistiken werden weder verkauft noch weitergegeben noch für Werbung genutzt.</p>
+  </li>
   <li><strong>Deine Favoriten, zuletzt gehörten Sender und Einstellungen bleiben auf deinem Gerät.</strong> Sie werden nie an uns gesendet.</li>
   <li><strong>Womit sich die App verbindet, und warum:</strong>
     <ul>
       <li>mit den Streaming-Servern der Sender selbst, um den gewählten Sender abzuspielen;</li>
       <li>mit unserer ${link(STATIONS_REPO, 'öffentlichen Senderliste')} (über jsDelivr oder GitHub), um die Senderliste zu laden;</li>
       <li>mit Radio Browser (radio-browser.info), wenn du einen Sender suchst, der nicht in der Liste ist;</li>
-      <li>mit der iTunes Search API (Apple), um das Cover des laufenden Songs anzuzeigen.</li>
+      <li>mit der iTunes Search API (Apple), um das Cover des laufenden Songs anzuzeigen;</li>
+      <li>mit Umami, für die anonymen Statistiken oben.</li>
     </ul>
     <p>Diese Anfragen enthalten keine Kennung von dir oder deinem Gerät. Wie jede Webanfrage erreichen sie diese Server von deiner IP-Adresse aus; es gelten deren eigene Datenschutzerklärungen.</p>
   </li>
   <li><strong>Mitteilungen (Mac):</strong> Song-Banner werden auf deinem Mac erstellt und nirgendwohin gesendet.</li>
 </ul>
-<p>Wir verkaufen, teilen und speichern keine Daten über dich – wir haben keine.</p>
+<p>Wir verkaufen und teilen keine Daten und speichern keine Daten über dich: Die Statistiken oben sind anonyme Zählungen.</p>
 <p>Fragen: ${link(ISSUES, 'eröffne ein Issue')}.</p>`,
   },
 };

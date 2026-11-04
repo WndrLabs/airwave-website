@@ -25,6 +25,11 @@ export const SITE = {
   appLink: (slug) => `skywave://radio/${slug}`,
   bundleId: 'com.wndrlabs.airwaves',
   stationsUrl: 'https://cdn.jsdelivr.net/gh/WndrLabs/airwaves-stations@main/stations.json',
+  /**
+   * Anonymous statistics (Umami, no cookie): the same account as the app (src/analytics in the app
+   * repo), so the site and the app can be compared. Only counted on the site's own domain.
+   */
+  umami: { script: 'https://cloud.umami.is/script.js', websiteId: 'dfefccaa-c541-4d0b-96d4-38aebb3dcb05', domain: 'skywave-radio.app' },
 };
 
 export function configureSite({ siteUrl, version, teamId, season = false }) {

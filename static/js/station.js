@@ -7,6 +7,15 @@
   const button = root.querySelector('.play');
   const statusText = root.querySelector('.status-text');
   const unavailable = root.querySelector('.unavailable');
+  // Anonymous statistics (Umami): the same events and properties as the app.
+  const stats = { station: d.name, station_id: d.key, country: d.country || 'none', genre: d.genre || 'none', platform: 'web' };
+  function track(name, extra) {
+    const send = () => window.umami && window.umami.track(name, { ...stats, ...extra });
+    if (window.umami) send();
+    else window.addEventListener('load', send, { once: true });
+  }
+  track('station_view');
+
   const audio = new Audio();
   audio.preload = 'none';
   let hls = null;
@@ -49,6 +58,7 @@
   }
 
   async function play() {
+    track('station_play', { source: 'website' });
     setState('loading');
     unavailable.hidden = true;
     root.classList.remove('failed');
@@ -91,6 +101,7 @@
   // the app isn't installed, so the App Store. Elsewhere, the App Store (and the phone's camera
   // or a link sent to oneself does the rest).
   const open = root.querySelector('.open-app');
+  open.addEventListener('click', () => track('open_app'));
   const iOS = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   if (!iOS) {
     open.href = d.store;

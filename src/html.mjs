@@ -65,6 +65,9 @@ export function page({
   bodyClass = '',
   noindex = false,
   head = '',
+  // Off on the 404 page: a station page made from it in the browser (src/dynamic.mjs) is counted
+  // as itself, not twice.
+  stats = true,
 }) {
   const t = T[lang];
   const url = SITE.abs(path);
@@ -97,6 +100,7 @@ ${imageAlt ? `<meta property="og:image:alt" content="${esc(imageAlt)}">` : ''}
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="${SITE.asset('/css/site.css')}">
+${stats ? `<script defer src="${SITE.umami.script}" data-website-id="${SITE.umami.websiteId}" data-domains="${SITE.umami.domain}" data-do-not-track="true"></script>` : ''}
 ${jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd).replace(/</g, '\\u003c')}</script>` : ''}
 </head>
 <body class="${bodyClass}">

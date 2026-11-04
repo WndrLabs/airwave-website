@@ -13,6 +13,7 @@ import {
   waveSvg,
 } from './html.mjs';
 import { COUNTRIES } from './data.mjs';
+import { linkKey } from './links.mjs';
 import { SITE, siteConfig } from './site.mjs';
 
 /** Two tones per genre, as in the app's genre tiles. */
@@ -269,6 +270,7 @@ ${nav(lang)}
 <main class="station-main">
   <section class="player" id="player" style="--from:${from};--to:${to}"
     data-stream="${esc(station.url)}" data-hls="${station.hls ? 1 : 0}" data-name="${esc(station.name)}"
+    data-key="${esc(linkKey(station.id))}" data-country="${esc(station.country)}" data-genre="${esc(station.genres[0] ?? 'none')}"
     data-logo="${esc(station.logo ?? '')}" data-app="${esc(SITE.appLink(station.slug))}" data-store="${SITE.appStore}"
     data-t-play="${esc(s.play)}" data-t-pause="${esc(s.pause)}" data-t-loading="${esc(s.loading)}" data-t-live="${esc(s.live)}">
     <div class="player-bg" aria-hidden="true">${station.logo ? `<img src="${esc(station.logo)}" alt="">` : ''}</div>
@@ -413,6 +415,7 @@ ${nav(lang)}
     description: t.meta.description,
     body,
     noindex: true,
+    stats: false,
     scripts: ['/js/site.js'],
     // A station's link without a page of its own: the App Store banner opens the app on it (Safari
     // reads the banner while the page loads, so it's written right away), and the page is made
