@@ -129,6 +129,27 @@ ${urls.map((u) => `<url><loc>${SITE.abs(u)}</loc><lastmod>${today}</lastmod></ur
 </urlset>
 `,
 );
+// The icons a phone uses when the site is added to its home screen (the favicons are in static/:
+// favicon.ico at the root, where browsers and search engines look for it, and favicon.svg).
+write(
+  'site.webmanifest',
+  JSON.stringify(
+    {
+      name: 'Skywave',
+      short_name: 'Skywave',
+      start_url: SITE.url('/'),
+      display: 'browser',
+      background_color: '#0A0A1C',
+      theme_color: '#0A0A1C',
+      icons: [
+        { src: SITE.url('/img/icon-192.png'), sizes: '192x192', type: 'image/png' },
+        { src: SITE.url('/img/icon-512.png'), sizes: '512x512', type: 'image/png' },
+      ],
+    },
+    null,
+    2,
+  ) + '\n',
+);
 write('robots.txt', `User-agent: *\nAllow: /\nSitemap: ${SITE.abs('/sitemap.xml')}\n`);
 
 console.log(

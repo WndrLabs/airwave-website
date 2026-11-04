@@ -94,8 +94,10 @@ ${head}
 <meta property="og:image" content="${esc(img)}">
 ${imageAlt ? `<meta property="og:image:alt" content="${esc(imageAlt)}">` : ''}
 <meta name="twitter:card" content="${image.startsWith('/img/') ? 'summary_large_image' : 'summary'}">
-<link rel="icon" href="${SITE.url('/img/icon-64.png')}" type="image/png">
+<link rel="icon" href="${SITE.url('/favicon.ico')}" sizes="48x48">
+<link rel="icon" href="${SITE.url('/favicon.svg')}" type="image/svg+xml">
 <link rel="apple-touch-icon" href="${SITE.url('/img/icon-180.png')}">
+<link rel="manifest" href="${SITE.url('/site.webmanifest')}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap">
