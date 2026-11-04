@@ -26,9 +26,9 @@ const PRIVACY = {
 <p class="doc-lead">Skywave (iPhone, CarPlay and Mac) collects no personal data.</p>
 <ul>
   <li><strong>No account, no ads, no tracking.</strong> The app contains no advertising SDK, and nothing follows you across other apps or websites.</li>
-  <li><strong>Anonymous statistics.</strong> To know which stations are listened to and which features are used, the app (iPhone and CarPlay) and this website count a few events with ${link(UMAMI, 'Umami')}, without cookies:
+  <li><strong>Anonymous statistics.</strong> To know which stations are listened to and which features are used, the app (iPhone, CarPlay and Mac) and this website count a few events with ${link(UMAMI, 'Umami')}, without cookies:
     <ul>
-      <li>a station viewed, played or added to your favorites: its name, country and genre, where it was started from (genres, search, favorites, CarPlay, Siri, a link) and the platform (iPhone, CarPlay, Android or website);</li>
+      <li>a station viewed, played or added to your favorites: its name, country and genre, where it was started from (genres, search, favorites, CarPlay, Siri, a link) and the platform (iPhone, CarPlay, Mac, Android or website);</li>
       <li>the app opened from a station link;</li>
       <li>whether a search found something, never what you typed.</li>
     </ul>
@@ -58,9 +58,9 @@ const PRIVACY = {
 <p class="doc-lead">Skywave (iPhone, CarPlay et Mac) ne collecte aucune donnée personnelle.</p>
 <ul>
   <li><strong>Sans compte, sans publicité, sans pistage.</strong> L’app ne contient aucun outil publicitaire, et rien ne vous suit d’une app ou d’un site à l’autre.</li>
-  <li><strong>Statistiques anonymes.</strong> Pour savoir quelles radios sont écoutées et quelles fonctions servent, l’app (iPhone et CarPlay) et ce site comptent quelques événements avec ${link(UMAMI, 'Umami')}, sans cookie :
+  <li><strong>Statistiques anonymes.</strong> Pour savoir quelles radios sont écoutées et quelles fonctions servent, l’app (iPhone, CarPlay et Mac) et ce site comptent quelques événements avec ${link(UMAMI, 'Umami')}, sans cookie :
     <ul>
-      <li>une radio affichée, écoutée ou ajoutée aux favoris : son nom, son pays et son genre, d’où elle a été lancée (genres, recherche, favoris, CarPlay, Siri, un lien) et la plateforme (iPhone, CarPlay, Android ou site) ;</li>
+      <li>une radio affichée, écoutée ou ajoutée aux favoris : son nom, son pays et son genre, d’où elle a été lancée (genres, recherche, favoris, CarPlay, Siri, un lien) et la plateforme (iPhone, CarPlay, Mac, Android ou site) ;</li>
       <li>l’ouverture de l’app depuis le lien d’une radio ;</li>
       <li>si une recherche a trouvé quelque chose, jamais ce que vous avez tapé.</li>
     </ul>
@@ -90,9 +90,9 @@ const PRIVACY = {
 <p class="doc-lead">Skywave (iPhone, CarPlay und Mac) erhebt keine personenbezogenen Daten.</p>
 <ul>
   <li><strong>Kein Konto, keine Werbung, kein Tracking.</strong> Die App enthält keine Werbe-SDKs, und nichts verfolgt dich über andere Apps oder Websites.</li>
-  <li><strong>Anonyme Statistiken.</strong> Um zu wissen, welche Sender gehört und welche Funktionen genutzt werden, zählen die App (iPhone und CarPlay) und diese Website einige Ereignisse mit ${link(UMAMI, 'Umami')}, ohne Cookies:
+  <li><strong>Anonyme Statistiken.</strong> Um zu wissen, welche Sender gehört und welche Funktionen genutzt werden, zählen die App (iPhone, CarPlay und Mac) und diese Website einige Ereignisse mit ${link(UMAMI, 'Umami')}, ohne Cookies:
     <ul>
-      <li>ein Sender, der angezeigt, abgespielt oder zu den Favoriten hinzugefügt wird: sein Name, Land und Genre, wo er gestartet wurde (Genres, Suche, Favoriten, CarPlay, Siri, ein Link) und die Plattform (iPhone, CarPlay, Android oder Website);</li>
+      <li>ein Sender, der angezeigt, abgespielt oder zu den Favoriten hinzugefügt wird: sein Name, Land und Genre, wo er gestartet wurde (Genres, Suche, Favoriten, CarPlay, Siri, ein Link) und die Plattform (iPhone, CarPlay, Mac, Android oder Website);</li>
       <li>das Öffnen der App über den Link eines Senders;</li>
       <li>ob eine Suche etwas gefunden hat, nie, was du eingegeben hast.</li>
     </ul>
