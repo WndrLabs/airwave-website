@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Builds the site into dist/: the landing page in each language, the privacy policy and support
-// page, a page for each of the most popular stations (the others are made in the browser, see src/dynamic.mjs), a page per country,
-// the sitemap, and the universal links file. Stations come from the weekly list the app uses.
+// page, a page for every station (a station added since the last build is made in the browser,
+// see src/dynamic.mjs), a page per country, the sitemap, and the universal links file. Stations come from the weekly list the app uses.
 //
 //   node build.mjs                      fetches stations.json from the CDN
 //   STATIONS_FILE=… node build.mjs      or reads a local copy
@@ -70,8 +70,10 @@ for (const lang of LANGS) {
   write(landingPath(lang), landingPage(lang, { marquee, byCountry, total: stations.length }));
 }
 
+// Every station has a page of its own (a link preview, the App Store banner and a 200 need one);
+// the sitemap lists the most popular ones (staticStations).
 const withPage = staticStations(catalog);
-for (const s of withPage) {
+for (const s of stations) {
   write(stationPath(s.slug), stationPage(s, { related: relatedOf(s, catalog), byCountry }));
 }
 
@@ -153,5 +155,5 @@ write(
 write('robots.txt', `User-agent: *\nAllow: /\nSitemap: ${SITE.abs('/sitemap.xml')}\n`);
 
 console.log(
-  `${OUT}/: ${LANGS.length} landing pages, ${withPage.length} of ${stations.length} station pages (the others made in the browser), ${christmas.length} Christmas stations${SITE.season ? ' (in season)' : ''}, ${byCountry.size} countries · ${SITE.abs('/')}`,
+  `${OUT}/: ${LANGS.length} landing pages, ${stations.length} station pages (${withPage.length} in the sitemap), ${christmas.length} Christmas stations${SITE.season ? ' (in season)' : ''}, ${byCountry.size} countries · ${SITE.abs('/')}`,
 );
