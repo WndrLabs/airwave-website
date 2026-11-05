@@ -9,7 +9,8 @@ const ISSUES = 'https://github.com/WndrLabs/airwaves-stations/issues';
 const NEW_ISSUE = `${ISSUES}/new`;
 const STATIONS_REPO = 'https://github.com/WndrLabs/airwaves-stations';
 const UMAMI = 'https://umami.is/privacy';
-const UPDATED = '2026-11-04';
+const SCRUTER = 'https://scruter.net/privacy';
+const UPDATED = '2026-11-05';
 
 const link = (href, text) => `<a href="${href}">${text}</a>`;
 const date = (lang) =>
@@ -26,13 +27,14 @@ const PRIVACY = {
 <p class="doc-lead">Skywave (iPhone, CarPlay and Mac) collects no personal data.</p>
 <ul>
   <li><strong>No account, no ads, no tracking.</strong> The app contains no advertising SDK, and nothing follows you across other apps or websites.</li>
-  <li><strong>Anonymous statistics.</strong> To know which stations are listened to and which features are used, the app (iPhone, CarPlay and Mac) and this website count a few events with ${link(UMAMI, 'Umami')}, without cookies:
+  <li><strong>Anonymous statistics.</strong> To know which stations are listened to and which features are used, the app (iPhone, CarPlay and Mac) counts a few events with ${link(UMAMI, 'Umami')}, and this website with ${link(SCRUTER, 'Scruter')} (French, hosted in France), both without cookies:
     <ul>
       <li>a station viewed, played or added to your favorites: its name, country and genre, where it was started from (genres, search, favorites, CarPlay, Siri, a link) and the platform (iPhone, CarPlay, Mac, Android or website);</li>
       <li>the app opened from a station link;</li>
+      <li>on this website, the pages you view, how long and how far down, and the links you follow to other sites (the App Store, for instance);</li>
       <li>a search: what you searched for, cleaned and cut to its first 20 characters (without e-mail or web addresses, nor long numbers), and whether it found something.</li>
     </ul>
-    <p>No identifier of you or your device is stored or sent. Umami tells visits apart with a hash of your IP address and of your browser or system, which it doesn’t keep. These statistics are not sold, not shared and not used for advertising.</p>
+    <p>No identifier of you or your device is stored or sent. Umami and Scruter tell visits apart without cookies, from your IP address and browser or system, which they don’t keep. These statistics are not sold, not shared and not used for advertising.</p>
   </li>
   <li><strong>Your favorites, recent stations and settings stay on your device.</strong> They are never sent to us.</li>
   <li><strong>What the app connects to, and why:</strong>
@@ -58,13 +60,14 @@ const PRIVACY = {
 <p class="doc-lead">Skywave (iPhone, CarPlay et Mac) ne collecte aucune donnée personnelle.</p>
 <ul>
   <li><strong>Sans compte, sans publicité, sans pistage.</strong> L’app ne contient aucun outil publicitaire, et rien ne vous suit d’une app ou d’un site à l’autre.</li>
-  <li><strong>Statistiques anonymes.</strong> Pour savoir quelles radios sont écoutées et quelles fonctions servent, l’app (iPhone, CarPlay et Mac) et ce site comptent quelques événements avec ${link(UMAMI, 'Umami')}, sans cookie :
+  <li><strong>Statistiques anonymes.</strong> Pour savoir quelles radios sont écoutées et quelles fonctions servent, l’app (iPhone, CarPlay et Mac) compte quelques événements avec ${link(UMAMI, 'Umami')}, et ce site avec ${link(SCRUTER, 'Scruter')} (français, hébergé en France), tous deux sans cookie :
     <ul>
       <li>une radio affichée, écoutée ou ajoutée aux favoris : son nom, son pays et son genre, d’où elle a été lancée (genres, recherche, favoris, CarPlay, Siri, un lien) et la plateforme (iPhone, CarPlay, Mac, Android ou site) ;</li>
       <li>l’ouverture de l’app depuis le lien d’une radio ;</li>
+      <li>sur ce site, les pages vues, combien de temps et jusqu’où, et les liens suivis vers d’autres sites (l’App Store, par exemple) ;</li>
       <li>une recherche : ce que vous avez cherché, nettoyé et limité à ses 20 premiers caractères (sans adresse e-mail ou web, ni long numéro), et si elle a trouvé quelque chose.</li>
     </ul>
-    <p>Aucun identifiant vous concernant, vous ou votre appareil, n’est conservé ni envoyé. Umami distingue les visites grâce à une empreinte de votre adresse IP et de votre navigateur ou système, qu’il ne conserve pas. Ces statistiques ne sont ni vendues, ni partagées, ni utilisées pour de la publicité.</p>
+    <p>Aucun identifiant vous concernant, vous ou votre appareil, n’est conservé ni envoyé. Umami et Scruter distinguent les visites sans cookie, à partir de votre adresse IP et de votre navigateur ou système, qu’ils ne conservent pas. Ces statistiques ne sont ni vendues, ni partagées, ni utilisées pour de la publicité.</p>
   </li>
   <li><strong>Vos favoris, vos radios récentes et vos réglages restent sur votre appareil.</strong> Ils ne nous sont jamais envoyés.</li>
   <li><strong>Ce à quoi l’app se connecte, et pourquoi :</strong>
@@ -90,13 +93,14 @@ const PRIVACY = {
 <p class="doc-lead">Skywave (iPhone, CarPlay und Mac) erhebt keine personenbezogenen Daten.</p>
 <ul>
   <li><strong>Kein Konto, keine Werbung, kein Tracking.</strong> Die App enthält keine Werbe-SDKs, und nichts verfolgt dich über andere Apps oder Websites.</li>
-  <li><strong>Anonyme Statistiken.</strong> Um zu wissen, welche Sender gehört und welche Funktionen genutzt werden, zählen die App (iPhone, CarPlay und Mac) und diese Website einige Ereignisse mit ${link(UMAMI, 'Umami')}, ohne Cookies:
+  <li><strong>Anonyme Statistiken.</strong> Um zu wissen, welche Sender gehört und welche Funktionen genutzt werden, zählt die App (iPhone, CarPlay und Mac) einige Ereignisse mit ${link(UMAMI, 'Umami')}, und diese Website mit ${link(SCRUTER, 'Scruter')} (französisch, in Frankreich gehostet), beide ohne Cookies:
     <ul>
       <li>ein Sender, der angezeigt, abgespielt oder zu den Favoriten hinzugefügt wird: sein Name, Land und Genre, wo er gestartet wurde (Genres, Suche, Favoriten, CarPlay, Siri, ein Link) und die Plattform (iPhone, CarPlay, Mac, Android oder Website);</li>
       <li>das Öffnen der App über den Link eines Senders;</li>
+      <li>auf dieser Website die angesehenen Seiten, wie lange und wie weit nach unten, und die Links zu anderen Websites (etwa zum App Store);</li>
       <li>eine Suche: wonach du gesucht hast, bereinigt und auf die ersten 20 Zeichen gekürzt (ohne E-Mail- oder Webadressen und lange Nummern), und ob sie etwas gefunden hat.</li>
     </ul>
-    <p>Es wird keine Kennung von dir oder deinem Gerät gespeichert oder gesendet. Umami unterscheidet Besuche anhand eines Hashwerts deiner IP-Adresse und deines Browsers oder Systems, den es nicht speichert. Diese Statistiken werden weder verkauft noch weitergegeben noch für Werbung genutzt.</p>
+    <p>Es wird keine Kennung von dir oder deinem Gerät gespeichert oder gesendet. Umami und Scruter unterscheiden Besuche ohne Cookies anhand deiner IP-Adresse und deines Browsers oder Systems, die sie nicht speichern. Diese Statistiken werden weder verkauft noch weitergegeben noch für Werbung genutzt.</p>
   </li>
   <li><strong>Deine Favoriten, zuletzt gehörten Sender und Einstellungen bleiben auf deinem Gerät.</strong> Sie werden nie an uns gesendet.</li>
   <li><strong>Womit sich die App verbindet, und warum:</strong>

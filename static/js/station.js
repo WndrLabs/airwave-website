@@ -7,12 +7,12 @@
   const button = root.querySelector('.play');
   const statusText = root.querySelector('.status-text');
   const unavailable = root.querySelector('.unavailable');
-  // Anonymous statistics (Umami): the same events and properties as the app.
+  // Anonymous statistics (Scruter): the same events and properties as the app. Until Scruter's
+  // script has loaded, events wait in its queue (it reads scruter.q when it starts).
   const stats = { station: d.name, station_id: d.key, country: d.country || 'none', genre: d.genre || 'none', platform: 'web' };
+  window.scruter = window.scruter || function () { (window.scruter.q = window.scruter.q || []).push(arguments); };
   function track(name, extra) {
-    const send = () => window.umami && window.umami.track(name, { ...stats, ...extra });
-    if (window.umami) send();
-    else window.addEventListener('load', send, { once: true });
+    window.scruter(name, { props: { ...stats, ...extra } });
   }
   track('station_view');
 

@@ -26,10 +26,11 @@ export const SITE = {
   bundleId: 'com.wndrlabs.airwaves',
   stationsUrl: 'https://cdn.jsdelivr.net/gh/WndrLabs/airwaves-stations@main/stations.json',
   /**
-   * Anonymous statistics (Umami, no cookie): the same account as the app (src/analytics in the app
-   * repo), so the site and the app can be compared. Only counted on the site's own domain.
+   * Anonymous statistics (Scruter, French, hosted in France, no cookie), with the app's events and
+   * properties (src/analytics in the app repo). Only counted on the site's own domain, and not
+   * when the browser asks not to be tracked.
    */
-  umami: { script: 'https://cloud.umami.is/script.js', websiteId: 'dfefccaa-c541-4d0b-96d4-38aebb3dcb05', domain: 'skywave-radio.app' },
+  scruter: { script: 'https://cdn.scruter.net/s.js', site: 'SKRADI01', domain: 'skywave-radio.app' },
 };
 
 export function configureSite({ siteUrl, version, teamId, season = false }) {
