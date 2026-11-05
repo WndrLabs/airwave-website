@@ -6,7 +6,7 @@ import { NAMES } from './data.mjs';
 export const LANGS = ['en', 'fr', 'de'];
 
 /** The language of a station's or country's page: the country's own, when the site has it. */
-export const COUNTRY_LANG = { FR: 'fr', BE: 'fr', SN: 'fr', CI: 'fr', MA: 'fr', DE: 'de', CH: 'de' };
+export const COUNTRY_LANG = { FR: 'fr', BE: 'fr', SN: 'fr', CI: 'fr', MA: 'fr', DE: 'de', CH: 'de', AT: 'de' };
 export const langOf = (country) => COUNTRY_LANG[country] ?? 'en';
 
 const en = {

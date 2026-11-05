@@ -19,6 +19,8 @@ export const NAMES = {
       "news": "News",
       "talk": "Talk",
       "sports": "Sports",
+      "gaming": "Gaming",
+      "kids": "Kids",
       "christmas": "Christmas",
       "variety": "Variety"
     },
@@ -29,6 +31,7 @@ export const NAMES = {
       "DE": "Germany",
       "BE": "Belgium",
       "CH": "Switzerland",
+      "AT": "Austria",
       "CA": "Canada",
       "ES": "Spain",
       "IT": "Italy",
@@ -63,6 +66,8 @@ export const NAMES = {
       "news": "Info",
       "talk": "Talk",
       "sports": "Sport",
+      "gaming": "Gaming",
+      "kids": "Enfants",
       "christmas": "Noël",
       "variety": "Variétés"
     },
@@ -73,6 +78,7 @@ export const NAMES = {
       "DE": "Allemagne",
       "BE": "Belgique",
       "CH": "Suisse",
+      "AT": "Autriche",
       "CA": "Canada",
       "ES": "Espagne",
       "IT": "Italie",
@@ -107,6 +113,8 @@ export const NAMES = {
       "news": "Nachrichten",
       "talk": "Talk",
       "sports": "Sport",
+      "gaming": "Gaming",
+      "kids": "Kinder",
       "christmas": "Weihnachten",
       "variety": "Unterhaltung"
     },
@@ -117,6 +125,7 @@ export const NAMES = {
       "DE": "Deutschland",
       "BE": "Belgien",
       "CH": "Schweiz",
+      "AT": "Österreich",
       "CA": "Kanada",
       "ES": "Spanien",
       "IT": "Italien",
@@ -165,6 +174,11 @@ export const COUNTRIES = [
     "code": "CH",
     "name": "Switzerland",
     "flag": "🇨🇭"
+  },
+  {
+    "code": "AT",
+    "name": "Austria",
+    "flag": "🇦🇹"
   },
   {
     "code": "CA",
