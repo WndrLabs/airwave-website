@@ -33,6 +33,23 @@
     img.replaceWith(tile);
   }, true);
 
+  // The features' clips: loaded when they come near the screen, played while on it, paused off it.
+  // With reduced motion, their posters only.
+  const clips = $$('.clip-video');
+  if (clips.length && !reduced && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      for (const { target: video, isIntersecting } of entries) {
+        if (isIntersecting) {
+          if (!video.src) video.src = video.dataset.src;
+          video.play().catch(() => {});
+        } else if (video.src) {
+          video.pause();
+        }
+      }
+    }, { rootMargin: '200px 0px' });
+    clips.forEach((video) => io.observe(video));
+  }
+
   const nav = document.getElementById('nav');
   const onScrollNav = () => nav && nav.classList.toggle('scrolled', scrollY > 30);
 

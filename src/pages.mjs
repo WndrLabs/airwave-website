@@ -3,6 +3,7 @@ import { LANGS, T, langOf } from './i18n.mjs';
 import {
   XMAS_PATHS,
   appStoreBadge,
+  macAppStoreBadge,
   countryPath,
   esc,
   html,
@@ -38,7 +39,6 @@ const PALETTES = {
 };
 const palette = (genre) => PALETTES[genre] ?? PALETTES.variety;
 const img = (name) => SITE.url(`/img/shots/${name}.webp`);
-const LOCAL_SHOT = { en: 'en-uk', fr: 'fr-france', de: 'de-germany' };
 
 function phone(src, alt, { cls = '', speed, eager = false } = {}) {
   return html`<div class="phone ${cls}"${speed ? ` data-speed="${speed}"` : ''}>
@@ -67,11 +67,52 @@ const flag = (code) => COUNTRIES.find((c) => c.code === code)?.flag ?? '';
 
 // ─── Landing ──────────────────────────────────────────────────────────────────────────────────────
 
+/**
+ * A feature's looping clip (airwaves/marketing/motion, square, without its headline: the page has
+ * the text), in the page's language. site.js plays it while it's on screen; until then, and with
+ * reduced motion, its poster shows the moment that tells the feature.
+ */
+const clip = (feature, lang, label) =>
+  html`<figure class="clip reveal"><video class="clip-video" muted loop playsinline preload="none" width="864" height="864" poster="${SITE.url(`/video/${feature}-${lang}.jpg`)}" data-src="${SITE.url(`/video/${feature}-${lang}.mp4`)}" aria-label="${esc(label)}"></video></figure>`;
+
+/** A feature: kicker, title (its second part in the wave's gradient), text, points, its clip. */
+function featureSection(key, lang, { reverse = false, extra = '' } = {}) {
+  const f = T[lang].features[key];
+  return html`<section class="feature clip-feature${reverse ? ' reverse' : ''}" id="${key}">
+    <div class="feature-copy">
+      <p class="kicker reveal">${f.kicker}</p>
+      <h2 class="reveal">${f.title[0]} <span class="grad">${f.title[1]}</span></h2>
+      <p class="lead reveal">${f.text}</p>
+      ${f.points ? html`<ul class="points reveal">${f.points.map((p) => `<li>${p}</li>`)}</ul>` : ''}
+      ${extra}
+    </div>
+    ${clip(key, lang, `${f.title[0]} ${f.title[1]}`)}
+  </section>`;
+}
+
+/** The small features' icons, drawn in the wave's gradient. */
+const stroke = (d) =>
+  `<svg viewBox="0 0 24 24" fill="none" stroke="url(#mg)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><defs><linearGradient id="mg" x1="0" x2="1"><stop offset="0" stop-color="#45E3FF"/><stop offset="1" stop-color="#FF6FB1"/></linearGradient></defs>${d}</svg>`;
+const MORE_ICONS = {
+  siri: stroke('<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>'),
+  cast: stroke('<path d="M3 8V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6"/><path d="M3 12a8 8 0 0 1 8 8M3 16a4 4 0 0 1 4 4"/><circle cx="3.5" cy="20" r=".5"/>'),
+  moon: stroke('<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>'),
+  cloud: stroke('<path d="M7 18h10a4 4 0 0 0 .5-7.97A6 6 0 0 0 6.1 9.5 4.25 4.25 0 0 0 7 18z"/>'),
+};
+
 export function landingPage(lang, { marquee, byCountry, total }) {
   const t = T[lang];
   const alternates = Object.fromEntries(LANGS.map((l) => [l, landingPath(l)]));
   alternates['x-default'] = '/';
-  const stats = t.stats.map(([n, label], i) => (i === 0 ? [Math.floor(total / 100) * 100, label] : [n, label]));
+  // From the catalog: stations (rounded down), countries and genres with stations, and no ads.
+  const withStations = [...byCountry.values()].flat();
+  const values = [
+    Math.floor(total / 100) * 100,
+    COUNTRIES.filter((c) => byCountry.get(c.code)?.length).length,
+    new Set(withStations.flatMap((s) => s.genres ?? [])).size,
+    0,
+  ];
+  const stats = t.stats.map(([, label], i) => [values[i], label]);
   const fmt = new Intl.NumberFormat(t.htmlLang);
   const half = Math.ceil(marquee.length / 2);
   const belt = (list, reverse) => html`<div class="belt${reverse ? ' belt-rev' : ''}"><div class="belt-track">
@@ -99,11 +140,12 @@ ${nav(lang, { landing: true })}
       <p class="kicker reveal">${t.hero.kicker}</p>
       <h1 class="reveal"><span>${t.hero.title[0]}</span> <span class="grad">${t.hero.title[1]}</span></h1>
       <p class="lead reveal">${t.hero.text}</p>
-      <div class="hero-cta reveal">${appStoreBadge(lang, { height: 56 })}<span class="free">${t.hero.free}</span></div>
+      <div class="hero-cta reveal">${appStoreBadge(lang, { height: 56 })}${macAppStoreBadge(lang, { height: 56 })}</div>
+      <p class="hero-note reveal"><span class="free">${t.hero.free}</span><span class="soon">${t.soon}</span></p>
     </div>
     <div class="hero-phones">
       ${phone(img(`${lang}-search`), '', { cls: 'phone-side phone-left', speed: '-0.08' })}
-      ${phone(img(`${lang}-all`), t.browse.title, { cls: 'phone-main', speed: '-0.18', eager: true })}
+      ${phone(img(`${lang}-all`), `${t.features.world.title[0]} ${t.features.world.title[1]}`, { cls: 'phone-main', speed: '-0.18', eager: true })}
       ${phone(img(`${lang}-player`), '', { cls: 'phone-side phone-right', speed: '-0.04' })}
     </div>
   </section>
@@ -119,79 +161,20 @@ ${nav(lang, { landing: true })}
     ${belt(marquee.slice(half), true)}
   </section>
 
-  <section class="feature" id="features">
-    <div class="feature-copy">
-      <p class="kicker reveal">${t.browse.kicker}</p>
-      <h2 class="reveal">${t.browse.title}</h2>
-      <p class="lead reveal">${t.browse.text}</p>
-      <ul class="points reveal">${t.browse.points.map((p) => `<li>${p}</li>`)}</ul>
-    </div>
-    <div class="feature-art duo">
-      ${phone(img(`${lang}-country-list`), '', { cls: 'phone-back', speed: '0.06' })}
-      ${phone(img(LOCAL_SHOT[lang]), t.browse.title, { cls: 'phone-front', speed: '-0.08' })}
-    </div>
-  </section>
+  <div id="features">
+    ${featureSection('carplay', lang)}
+    ${featureSection('widget', lang, { reverse: true })}
+    ${featureSection('songs', lang)}
+    ${featureSection('world', lang, { reverse: true })}
+    ${featureSection('mac', lang, { extra: html`<div class="reveal">${macAppStoreBadge(lang, { height: 48 })}</div>` })}
+  </div>
 
-  <section class="carplay" id="carplay">
-    <div class="carplay-sticky">
-      <div class="feature-copy center">
-        <p class="kicker reveal">${t.carplay.kicker}</p>
-        <h2 class="reveal">${t.carplay.title}</h2>
-        <p class="lead reveal">${t.carplay.text}</p>
-      </div>
-      <div class="dash reveal">
-        <div class="dash-screen">
-          <img src="${img(`carplay-${lang}`)}" alt="${esc(t.carplay.title)}" width="2278" height="996" loading="lazy">
-          <img class="dash-playing" src="${img(`carplay-${lang}-playing`)}" alt="" width="2278" height="996" loading="lazy">
-        </div>
-      </div>
-      <ul class="points points-row reveal">${t.carplay.points.map((p) => `<li>${p}</li>`)}</ul>
-    </div>
-  </section>
-
-  <section class="signal">
-    <div class="feature-copy center">
-      <p class="kicker reveal">${t.signal.kicker}</p>
-      <h2 class="reveal">${t.signal.title}</h2>
-      <p class="lead reveal">${t.signal.text}</p>
-    </div>
-    <div class="road reveal" aria-hidden="true">
-      <div class="tunnel"><span>${t.signal.tunnel}</span></div>
-      <svg class="road-svg" viewBox="0 0 1200 220" preserveAspectRatio="none">
-        <defs>
-          <linearGradient id="rg" x1="0" x2="1"><stop offset="0" stop-color="#45E3FF"/><stop offset=".5" stop-color="#A27BFF"/><stop offset="1" stop-color="#FF6FB1"/></linearGradient>
-        </defs>
-        <path class="net" d=""/>
-        <path class="music" d="" stroke="url(#rg)"/>
-      </svg>
-      <div class="buffer"><span>${t.signal.buffer}</span></div>
-      <div class="car">
-        <svg viewBox="0 0 64 28"><path d="M6 20h52c2 0 3-1 3-3v-3c0-2-1-3-3-4l-9-2-7-6c-1-1-2-1-4-1H22c-2 0-3 0-4 1l-7 6-6 2c-2 1-3 2-3 4v3c0 2 1 3 4 3z" fill="currentColor"/><circle cx="17" cy="21" r="5" fill="#0A0A1C" stroke="currentColor" stroke-width="2.5"/><circle cx="47" cy="21" r="5" fill="#0A0A1C" stroke="currentColor" stroke-width="2.5"/></svg>
-      </div>
-    </div>
-  </section>
-
-  <section class="feature reverse">
-    <div class="feature-copy">
-      <p class="kicker reveal">${t.song.kicker}</p>
-      <h2 class="reveal">${t.song.title}</h2>
-      <p class="lead reveal">${t.song.text}</p>
-    </div>
-    <div class="feature-art solo">
-      <div class="halo" data-speed="0.1"></div>
-      ${phone(img(`${lang}-player`), t.song.title, { cls: 'phone-tilt', speed: '-0.1' })}
-    </div>
-  </section>
-
-  <section class="mac" id="mac">
-    <div class="feature-copy center">
-      <p class="kicker reveal">${t.mac.kicker}</p>
-      <h2 class="reveal">${t.mac.title}</h2>
-      <p class="lead reveal">${t.mac.text}</p>
-    </div>
-    <div class="mac-art">
-      <div class="screen reveal" data-speed="-0.04"><img src="${img('mac-genres')}" alt="${esc(t.mac.title)}" width="1330" height="1110" loading="lazy"></div>
-      <div class="screen screen-float reveal" data-speed="-0.14"><img src="${img('mac-banner')}" alt="" width="1288" height="672" loading="lazy"></div>
+  <section class="more">
+    <h2 class="reveal">${t.more.title}</h2>
+    <div class="more-grid">
+      ${t.more.items.map(
+        ([icon, title, text]) => html`<div class="more-card reveal"><span class="more-icon" aria-hidden="true">${MORE_ICONS[icon]}</span><h3>${title}</h3><p>${text}</p></div>`,
+      )}
     </div>
   </section>
 
@@ -220,7 +203,8 @@ ${nav(lang, { landing: true })}
     <img class="cta-icon reveal" src="${SITE.url('/img/icon-256.png')}" alt="" width="128" height="128" loading="lazy">
     <h2 class="reveal">${t.cta.title}</h2>
     <p class="lead reveal">${t.cta.text}</p>
-    <div class="reveal">${appStoreBadge(lang, { height: 60 })}</div>
+    <div class="hero-cta reveal">${appStoreBadge(lang, { height: 60 })}${macAppStoreBadge(lang, { height: 60 })}</div>
+    <p class="hero-note reveal"><span class="soon">${t.soon}</span></p>
   </section>
 </main>`;
 
