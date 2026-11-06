@@ -10,7 +10,7 @@ const NEW_ISSUE = `${ISSUES}/new`;
 const STATIONS_REPO = 'https://github.com/WndrLabs/airwaves-stations';
 const UMAMI = 'https://umami.is/privacy';
 const SCRUTER = 'https://scruter.net/privacy';
-const UPDATED = '2026-11-05';
+const UPDATED = '2026-11-06';
 
 const link = (href, text) => `<a href="${href}">${text}</a>`;
 const date = (lang) =>
@@ -36,7 +36,7 @@ const PRIVACY = {
     </ul>
     <p>No identifier of you or your device is stored or sent. Umami and Scruter tell visits apart without cookies, from your IP address and browser or system, which they don’t keep. These statistics are not sold, not shared and not used for advertising.</p>
   </li>
-  <li><strong>Your favorites, recent stations and settings stay on your device.</strong> They are never sent to us.</li>
+  <li><strong>Your favorites, recent stations and settings stay on your device.</strong> They are never sent to us. On iPhone and Mac, your favorites are also kept in your own iCloud account, to find them on your other Apple devices and after reinstalling the app: Apple stores them, we never see them.</li>
   <li><strong>What the app connects to, and why:</strong>
     <ul>
       <li>the radio stations’ own streaming servers, to play the station you choose;</li>
@@ -69,7 +69,7 @@ const PRIVACY = {
     </ul>
     <p>Aucun identifiant vous concernant, vous ou votre appareil, n’est conservé ni envoyé. Umami et Scruter distinguent les visites sans cookie, à partir de votre adresse IP et de votre navigateur ou système, qu’ils ne conservent pas. Ces statistiques ne sont ni vendues, ni partagées, ni utilisées pour de la publicité.</p>
   </li>
-  <li><strong>Vos favoris, vos radios récentes et vos réglages restent sur votre appareil.</strong> Ils ne nous sont jamais envoyés.</li>
+  <li><strong>Vos favoris, vos radios récentes et vos réglages restent sur votre appareil.</strong> Ils ne nous sont jamais envoyés. Sur iPhone et Mac, vos favoris sont aussi conservés dans votre propre compte iCloud, pour les retrouver sur vos autres appareils Apple et après une réinstallation de l’app : Apple les stocke, nous n’y avons jamais accès.</li>
   <li><strong>Ce à quoi l’app se connecte, et pourquoi :</strong>
     <ul>
       <li>les serveurs de diffusion des radios elles‑mêmes, pour écouter la radio choisie ;</li>
@@ -102,7 +102,7 @@ const PRIVACY = {
     </ul>
     <p>Es wird keine Kennung von dir oder deinem Gerät gespeichert oder gesendet. Umami und Scruter unterscheiden Besuche ohne Cookies anhand deiner IP-Adresse und deines Browsers oder Systems, die sie nicht speichern. Diese Statistiken werden weder verkauft noch weitergegeben noch für Werbung genutzt.</p>
   </li>
-  <li><strong>Deine Favoriten, zuletzt gehörten Sender und Einstellungen bleiben auf deinem Gerät.</strong> Sie werden nie an uns gesendet.</li>
+  <li><strong>Deine Favoriten, zuletzt gehörten Sender und Einstellungen bleiben auf deinem Gerät.</strong> Sie werden nie an uns gesendet. Auf iPhone und Mac werden deine Favoriten außerdem in deinem eigenen iCloud-Konto gespeichert, damit du sie auf deinen anderen Apple-Geräten und nach einer Neuinstallation der App wiederfindest: Apple speichert sie, wir sehen sie nie.</li>
   <li><strong>Womit sich die App verbindet, und warum:</strong>
     <ul>
       <li>mit den Streaming-Servern der Sender selbst, um den gewählten Sender abzuspielen;</li>
