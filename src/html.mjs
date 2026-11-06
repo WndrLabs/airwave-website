@@ -27,13 +27,25 @@ export const PRIVACY_PATHS = { en: '/privacy/', fr: '/fr/confidentialite/', de: 
 export const SUPPORT_PATHS = { en: '/support/', fr: '/fr/assistance/', de: '/de/hilfe/' };
 
 /** Apple's own App Store badge, in the page's language; a drawn one if Apple's can't load. */
+const APPLE_GLYPH = '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>';
+const BADGE_REGION = { en: 'en-us', fr: 'fr-fr', de: 'de-de' };
+
+/** Apple's "Download on the App Store" badge (its own artwork; text if it can't load). */
 export function appStoreBadge(lang, { height = 54 } = {}) {
-  const region = { en: 'en-us', fr: 'fr-fr', de: 'de-de' }[lang];
-  const label = T[lang].appStore;
   const [small, big] = { en: ['Download on the', 'App Store'], fr: ['Télécharger dans', 'l’App Store'], de: ['Laden im', 'App Store'] }[lang];
-  return html`<a class="badge" href="${SITE.appStore}" aria-label="${esc(label)}" style="--h:${height}px">
-    <img src="https://tools.applemarketingtools.com/api/badges/download-on-the-app-store/black/${region}" alt="" height="${height}" onerror="this.remove()">
-    <span class="badge-text" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg><span><small>${small}</small>${big}</span></span>
+  return badge(SITE.appStore, 'download-on-the-app-store', T[lang].appStore, lang, height, small, big);
+}
+
+/** The same for the Mac App Store: the same listing (one purchase for iPhone and Mac), on its Mac page. */
+export function macAppStoreBadge(lang, { height = 54 } = {}) {
+  const [small, big] = { en: ['Download on the', 'Mac App Store'], fr: ['Télécharger dans le', 'Mac App Store'], de: ['Laden im', 'Mac App Store'] }[lang];
+  return badge(`${SITE.appStore}?platform=mac`, 'download-on-the-mac-app-store', T[lang].macAppStore, lang, height, small, big);
+}
+
+function badge(href, artwork, label, lang, height, small, big) {
+  return html`<a class="badge" href="${href}" aria-label="${esc(label)}" style="--h:${height}px">
+    <img src="https://tools.applemarketingtools.com/api/badges/${artwork}/black/${BADGE_REGION[lang]}" alt="" height="${height}" onerror="this.remove()">
+    <span class="badge-text" aria-hidden="true">${APPLE_GLYPH}<span><small>${small}</small>${big}</span></span>
   </a>`;
 }
 
