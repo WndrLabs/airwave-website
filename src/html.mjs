@@ -44,7 +44,7 @@ export function macAppStoreBadge(lang, { height = 54 } = {}) {
 
 function badge(href, artwork, label, lang, height, small, big) {
   return html`<a class="badge" href="${href}" aria-label="${esc(label)}" style="--h:${height}px">
-    <img src="https://tools.applemarketingtools.com/api/badges/${artwork}/black/${BADGE_REGION[lang]}" alt="" height="${height}" onerror="this.remove()">
+    <img src="https://toolbox.marketingtools.apple.com/api/v2/badges/${artwork}/black/${BADGE_REGION[lang]}" alt="" height="${height}" onerror="this.remove()">
     <span class="badge-text" aria-hidden="true">${APPLE_GLYPH}<span><small>${small}</small>${big}</span></span>
   </a>`;
 }

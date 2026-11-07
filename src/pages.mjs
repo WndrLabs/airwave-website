@@ -145,7 +145,7 @@ ${nav(lang, { landing: true })}
     </div>
     <div class="hero-phones">
       ${phone(img(`${lang}-search`), '', { cls: 'phone-side phone-left', speed: '-0.08' })}
-      ${phone(img(`${lang}-all`), `${t.features.world.title[0]} ${t.features.world.title[1]}`, { cls: 'phone-main', speed: '-0.18', eager: true })}
+      ${phone(img(`${lang}-all`), `${t.features.world.title[0]} ${t.features.world.title[1]}`, { cls: 'phone-main', speed: '-0.08', eager: true })}
       ${phone(img(`${lang}-player`), '', { cls: 'phone-side phone-right', speed: '-0.04' })}
     </div>
   </section>
