@@ -187,8 +187,8 @@ ${nav(lang, { landing: true })}
   </section>
 
   <section class="countries" id="stations">
-    <h2 class="reveal">${t.countries.title}</h2>
-    <p class="lead reveal">${t.countries.text}</p>
+    <h2 class="reveal">${t.countrySection.title}</h2>
+    <p class="lead reveal">${t.countrySection.text}</p>
     <div class="country-grid">
       ${COUNTRIES
         .filter((c) => byCountry.get(c.code)?.length)

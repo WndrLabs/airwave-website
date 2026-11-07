@@ -85,7 +85,7 @@ const en = {
     title: 'No account. No ads. No tracking.',
     text: 'Your favorites stay on your devices and in your own iCloud. No account, no tracking: only anonymous listening statistics.',
   },
-  countries: { title: 'Radio from 21 countries', text: 'Browse the stations of a country.' },
+  countrySection: { title: 'Radio from 21 countries', text: 'Browse the stations of a country.' },
   cta: { title: 'Tune in.', text: 'Skywave is free on the App Store, for iPhone and Mac.' },
   footer: { privacy: 'Privacy', support: 'Support', made: 'Made with care by WndrLabs.' },
   station: {
@@ -200,7 +200,7 @@ const fr = {
     title: 'Sans compte. Sans pub. Sans pistage.',
     text: 'Vos favoris restent sur vos appareils et dans votre propre iCloud. Sans compte, sans pistage : seulement des statistiques d’écoute anonymes.',
   },
-  countries: { title: 'La radio de 21 pays', text: 'Parcourez les radios d’un pays.' },
+  countrySection: { title: 'La radio de 21 pays', text: 'Parcourez les radios d’un pays.' },
   cta: { title: 'À l’écoute.', text: 'Skywave est gratuite sur l’App Store, pour iPhone et Mac.' },
   footer: { privacy: 'Confidentialité', support: 'Assistance', made: 'Fait avec soin par WndrLabs.' },
   station: {
@@ -315,7 +315,7 @@ const de = {
     title: 'Kein Konto. Keine Werbung. Kein Tracking.',
     text: 'Deine Favoriten bleiben auf deinen Geräten und in deiner eigenen iCloud. Kein Konto, kein Tracking – nur anonyme Hörstatistiken.',
   },
-  countries: { title: 'Radio aus 21 Ländern', text: 'Entdecke die Sender eines Landes.' },
+  countrySection: { title: 'Radio aus 21 Ländern', text: 'Entdecke die Sender eines Landes.' },
   cta: { title: 'Einschalten.', text: 'Skywave ist kostenlos im App Store, für iPhone und Mac.' },
   footer: { privacy: 'Datenschutz', support: 'Hilfe', made: 'Mit Sorgfalt gemacht von WndrLabs.' },
   station: {
