@@ -4,7 +4,8 @@
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const $$ = (sel) => [...document.querySelectorAll(sel)];
 
-  // First visit on the English home page with a French or German browser: that language instead.
+  // First visit on the English home page with a French, German or Spanish browser: that language
+  // instead.
   const langLinks = $$('.footer-langs a');
   langLinks.forEach((a) => a.addEventListener('click', () => remember(a.dataset.lang)));
   function remember(lang) {
@@ -13,7 +14,7 @@
   if (document.body.classList.contains('landing') && document.documentElement.lang === 'en') {
     let saved = null;
     try { saved = localStorage.getItem('lang'); } catch {}
-    const wanted = (navigator.languages || [navigator.language]).map((l) => l.slice(0, 2)).find((l) => ['en', 'fr', 'de'].includes(l));
+    const wanted = (navigator.languages || [navigator.language]).map((l) => l.slice(0, 2)).find((l) => ['en', 'fr', 'de', 'es'].includes(l));
     const target = langLinks.find((a) => a.dataset.lang === (saved || wanted));
     if (target && (saved || wanted) !== 'en') {
       location.replace(target.href);

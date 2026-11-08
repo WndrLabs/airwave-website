@@ -324,7 +324,7 @@ ${nav(lang)}
   return page({
     lang,
     path,
-    title: xmas ? s.titleXmas(station.name) : s.title(station.name),
+    title: xmas ? s.titleXmas(station.name) : s.title(station.name, country),
     description: s.description(station.name, country, genres.join(', ')),
     image: station.logo ?? '/img/og.png',
     imageAlt: station.name,

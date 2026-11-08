@@ -13,7 +13,7 @@ const UPDATED = '2026-11-08';
 
 const link = (href, text) => `<a href="${href}">${text}</a>`;
 const date = (lang) =>
-  new Intl.DateTimeFormat({ en: 'en-US', fr: 'fr-FR', de: 'de-DE' }[lang], { dateStyle: 'long', timeZone: 'UTC' }).format(
+  new Intl.DateTimeFormat({ en: 'en-US', fr: 'fr-FR', de: 'de-DE', es: 'es-ES' }[lang], { dateStyle: 'long', timeZone: 'UTC' }).format(
     new Date(UPDATED),
   );
 
@@ -126,6 +126,42 @@ const PRIVACY = {
 <p>Wir verkaufen und teilen keine Daten und speichern keine Daten über dich: Die Statistiken oben sind anonyme Zählungen.</p>
 <p>Fragen: ${link(ISSUES, 'eröffne ein Issue')}.</p>`,
   },
+  es: {
+    title: 'Política de privacidad',
+    meta: 'Skywave no recopila datos personales: sin cuenta, sin anuncios, sin rastreo, solo estadísticas anónimas.',
+    updated: (d) => `Última actualización: ${d}`,
+    body: () => html`
+<p class="doc-lead">Skywave (iPhone, CarPlay y Mac) no recopila datos personales.</p>
+<ul>
+  <li><strong>Sin cuenta, sin anuncios, sin rastreo.</strong> La app no contiene ningún SDK publicitario, y nada te sigue de una app o de un sitio web a otro.</li>
+  <li><strong>Estadísticas anónimas.</strong> Para saber qué emisoras se escuchan y qué funciones se usan, la app (iPhone, CarPlay y Mac) y este sitio web cuentan algunos eventos con ${link(SCRUTER, 'Scruter')} (francés, alojado en Francia), sin cookies:
+    <ul>
+      <li>una emisora vista, escuchada o añadida a favoritas: su nombre, país y género, desde dónde se inició (géneros, búsqueda, favoritas, CarPlay, Siri, un enlace) y la plataforma (iPhone, CarPlay, Mac, Android o sitio web);</li>
+      <li>la apertura de la app, y desde dónde (su icono, el enlace de una emisora, el widget, un atajo);</li>
+      <li>en la app, las pantallas que abres (géneros, una lista, búsqueda, favoritas…) y el tiempo que pasas en cada una: solo sus nombres, nunca lo que muestran ni lo que escribes;</li>
+      <li>en la app, los informes de fallos y medidas de rendimiento (como su tiempo de arranque), con las versiones de la app y del sistema, para encontrar y corregir errores;</li>
+      <li>en este sitio web, las páginas que ves, cuánto tiempo y hasta dónde, y los enlaces que sigues hacia otros sitios (el App Store, por ejemplo);</li>
+      <li>una búsqueda: lo que buscaste, limpio y recortado a sus 20 primeros caracteres (sin direcciones de correo o web, ni números largos), y si encontró algo;</li>
+      <li>en la app de iPhone, si la instalaste desde uno de nuestros anuncios: el informe de atribución anónimo de Apple (qué campaña llevó a la instalación, nunca quién eres), que iOS envía a Scruter.</li>
+    </ul>
+    <p>No se usa ninguna cuenta, identificador publicitario ni identificador del dispositivo. Para distinguir las visitas, la app genera cada día un identificador aleatorio y lo olvida a medianoche (en tu dispositivo solo guarda el día en que se instaló). En este sitio web, Scruter distingue las visitas sin cookies, a partir de tu dirección IP y de tu navegador. Scruter no guarda ninguna dirección IP: solo deduce de ella tu país y tu ciudad. Estas estadísticas no se venden, no se comparten y no se usan para publicidad.</p>
+  </li>
+  <li><strong>Tus favoritas, tus emisoras recientes y tus ajustes se quedan en tu dispositivo.</strong> Nunca nos llegan. En iPhone y Mac, tus favoritas también se guardan en tu propia cuenta de iCloud, para encontrarlas en tus otros dispositivos Apple y después de reinstalar la app: Apple las almacena, nosotros nunca las vemos.</li>
+  <li><strong>A qué se conecta la app, y por qué:</strong>
+    <ul>
+      <li>los servidores de streaming de las propias emisoras, para reproducir la emisora que eliges;</li>
+      <li>nuestra ${link(STATIONS_REPO, 'lista pública de emisoras')} (a través de jsDelivr o GitHub), para descargar la lista de emisoras;</li>
+      <li>Radio Browser (radio-browser.info), cuando buscas una emisora que no está en la lista;</li>
+      <li>la API iTunes Search (Apple), para mostrar la portada de la canción al aire;</li>
+      <li>Scruter, para las estadísticas anónimas y los informes de fallos de arriba.</li>
+    </ul>
+    <p>Estas solicitudes no llevan ningún identificador tuyo ni de tu dispositivo (las estadísticas solo llevan el identificador aleatorio del día). Como cualquier solicitud web, llegan a esos servidores desde tu dirección IP; se aplican sus propias políticas de privacidad.</p>
+  </li>
+  <li><strong>Notificaciones (Mac):</strong> los avisos de las canciones se crean en tu Mac y no se envían a ningún sitio.</li>
+</ul>
+<p>No vendemos ni compartimos ningún dato, y no guardamos ningún dato sobre ti: las estadísticas de arriba son recuentos anónimos.</p>
+<p>Preguntas: ${link(ISSUES, 'abre una incidencia')}.</p>`,
+  },
 };
 
 const SUPPORT = {
@@ -155,6 +191,15 @@ const SUPPORT = {
 <p><strong>Brauchst du Hilfe, hast du einen Fehler gefunden, oder fehlt ein Sender oder spielt nicht?</strong> ${link(NEW_ISSUE, 'Eröffne ein Issue')} und nenne uns den Namen und das Land des Senders, dein Gerät und was passiert.</p>
 <p>Die Senderliste wird jede Woche aktualisiert; ein Sender, der nicht mehr funktioniert, ist meist mit dem nächsten Update wieder da.</p>
 <p>Datenschutz: Skywave erhebt keine personenbezogenen Daten. Siehe die ${link(SITE.url(PRIVACY_PATHS.de), 'Datenschutzerklärung')}.</p>`,
+  },
+  es: {
+    title: 'Soporte',
+    meta: '¿Necesitas ayuda con Skywave, encontraste un error, o falta una emisora o no suena? Cuéntanoslo.',
+    body: () => html`
+<p class="doc-lead">Skywave reproduce más de 4500 emisoras oficiales en vivo de 21 países, en iPhone, CarPlay y Mac.</p>
+<p><strong>¿Necesitas ayuda, encontraste un error, o falta una emisora o no suena?</strong> ${link(NEW_ISSUE, 'Abre una incidencia')} y cuéntanos el nombre y el país de la emisora, tu dispositivo y qué ocurre.</p>
+<p>La lista de emisoras se actualiza cada semana: una emisora que deja de funcionar suele quedar corregida en la siguiente actualización.</p>
+<p>Privacidad: Skywave no recopila datos personales. Consulta la ${link(SITE.url(PRIVACY_PATHS.es), 'política de privacidad')}.</p>`,
   },
 };
 

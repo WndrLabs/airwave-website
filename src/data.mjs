@@ -144,6 +144,54 @@ export const NAMES = {
       "NG": "Nigeria",
       "ZA": "Südafrika"
     }
+  },
+  "es": {
+    "genres": {
+      "all": "Todo",
+      "rap": "Rap",
+      "hiphop": "Hip-hop",
+      "rnb": "R&B / Soul",
+      "pop": "Pop",
+      "rock": "Rock",
+      "country": "Country",
+      "electro": "Electrónica",
+      "jazz": "Jazz",
+      "classical": "Clásica",
+      "reggae": "Reggae",
+      "afro": "Afro",
+      "latin": "Latina",
+      "oldies": "Retro",
+      "news": "Noticias",
+      "talk": "Tertulias",
+      "sports": "Deportes",
+      "gaming": "Gaming",
+      "kids": "Infantil",
+      "christmas": "Navidad",
+      "variety": "Variedades"
+    },
+    "countries": {
+      "FR": "Francia",
+      "US": "Estados Unidos",
+      "GB": "Reino Unido",
+      "DE": "Alemania",
+      "BE": "Bélgica",
+      "CH": "Suiza",
+      "AT": "Austria",
+      "CA": "Canadá",
+      "ES": "España",
+      "IT": "Italia",
+      "NL": "Países Bajos",
+      "PT": "Portugal",
+      "BR": "Brasil",
+      "MX": "México",
+      "JP": "Japón",
+      "AU": "Australia",
+      "SN": "Senegal",
+      "CI": "Costa de Marfil",
+      "MA": "Marruecos",
+      "NG": "Nigeria",
+      "ZA": "Sudáfrica"
+    }
   }
 };
 

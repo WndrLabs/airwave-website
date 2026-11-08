@@ -114,6 +114,35 @@ const XMAS = {
     ],
     cta: 'Alle Weihnachtssender, in der Tasche und im Auto.',
   },
+  es: {
+    title: 'Radio de Navidad – Escuchar música navideña en vivo, gratis',
+    description: (n) =>
+      `${n} emisoras de radio de Navidad en vivo y gratis: éxitos navideños, villancicos, crooners y clásicos, las 24 horas. En el iPhone, en el coche con CarPlay y en el Mac con Skywave.`,
+    kicker: 'Radio de Navidad',
+    h1: ['Radio de Navidad,', 'en vivo y gratis.'],
+    lead: (n, c) =>
+      `${n} emisoras de ${c} países que solo ponen canciones de Navidad, las 24 horas. Toca una para escucharla aquí mismo, o llévalas en el coche con Skywave.`,
+    top: 'Las más escuchadas',
+    styles: {
+      hits: 'Éxitos navideños',
+      oldies: 'Clásicos navideños y retro',
+      jazz: 'Jazz, swing y crooners',
+      classical: 'Clásica y coros',
+      country: 'Navidad country',
+      gospel: 'Gospel y villancicos',
+    },
+    whyTitle: 'La Navidad en la carretera',
+    why: '¿De camino a casa por Navidad? Skywave pone todas las emisoras navideñas en CarPlay, en Explorar › Navidad, con listas grandes y sencillas pensadas para conducir. Se reconecta sola en los túneles y las zonas sin cobertura, y su temporizador de apagado para la música cuando los niños se duermen.',
+    faqTitle: 'Preguntas',
+    faq: (n, c, ex) => [
+      ['¿Dónde escuchar música navideña sin parar?', `En las emisoras de Navidad: webradios que solo ponen canciones navideñas, de día y de noche. Skywave reúne ${n}, de ${c} países, como ${ex}.`],
+      ['¿Es gratis?', 'Sí. Las emisoras son gratuitas, y Skywave también: sin cuenta y sin anuncios en la app.'],
+      ['¿Se pueden escuchar en el coche?', 'Sí. Con CarPlay, Skywave muestra las emisoras navideñas en Explorar › Navidad, y retoma tu última emisora en cuanto conectas el iPhone.'],
+      ['¿Cuándo empiezan las radios de Navidad?', 'Muchas emiten todo el año y otras vuelven en noviembre. Skywave revisa cada stream cada semana, así que la lista solo incluye emisoras que están al aire.'],
+      ['¿Puedo dormirme con música navideña?', 'Sí: activa el temporizador de apagado en el reproductor de Skywave (de 15 a 90 minutos) y la música se apaga sola.'],
+    ],
+    cta: 'Todas las emisoras de Navidad, en el bolsillo y en el coche.',
+  },
 };
 
 const flag = (code) => COUNTRIES.find((c) => c.code === code)?.flag ?? '';

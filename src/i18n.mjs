@@ -1,12 +1,12 @@
-// Every text of the site, per language. English is the reference; French and German have the
-// same keys. Genre and country names come from the app (src/data.mjs). Runs in Node and in the
+// Every text of the site, per language. English is the reference; French, German and Spanish have
+// the same keys. Genre and country names come from the app (src/data.mjs). Runs in Node and in the
 // browser (pages of the less popular stations are made there).
 import { NAMES } from './data.mjs';
 
-export const LANGS = ['en', 'fr', 'de'];
+export const LANGS = ['en', 'fr', 'de', 'es'];
 
 /** The language of a station's or country's page: the country's own, when the site has it. */
-export const COUNTRY_LANG = { FR: 'fr', BE: 'fr', SN: 'fr', CI: 'fr', MA: 'fr', DE: 'de', CH: 'de', AT: 'de' };
+export const COUNTRY_LANG = { FR: 'fr', BE: 'fr', SN: 'fr', CI: 'fr', MA: 'fr', DE: 'de', CH: 'de', AT: 'de', ES: 'es', MX: 'es' };
 export const langOf = (country) => COUNTRY_LANG[country] ?? 'en';
 
 const en = {
@@ -354,6 +354,127 @@ const de = {
   },
 };
 
+/**
+ * Spanish, for Spain and Latin America alike (Mexico first). Station and country pages say "en
+ * directo" for Spain, where people search for that, and "en vivo" elsewhere.
+ */
+const vivo = (country) => (country === NAMES.es.countries.ES ? 'en directo' : 'en vivo');
+
+const es = {
+  locale: 'es_ES',
+  htmlLang: 'es',
+  langName: 'Español',
+  appStore: 'Descárgalo en el App Store',
+  appStoreShort: 'App Store',
+  nav: {
+    features: 'Funciones',
+    carplay: 'CarPlay',
+    mac: 'Mac',
+    stations: 'Emisoras',
+    xmas: 'Navidad',
+    xmasFooter: 'Radio de Navidad',
+  },
+  xmasBanner: { title: 'Llega la radio de Navidad', text: 'Villancicos, crooners y éxitos navideños, en vivo desde todo el mundo.', cta: 'Escuchar' },
+  meta: {
+    title: 'Skywave – Radio en vivo en iPhone, CarPlay y Mac',
+    description:
+      'Más de 4500 emisoras oficiales de 21 países, las más escuchadas primero. Pensada para CarPlay, con widget y una app en la barra de menús del Mac. Sin cuenta, sin anuncios, sin rastreo.',
+  },
+  hero: {
+    kicker: 'Radio en vivo en iPhone, CarPlay y Mac',
+    title: ['Todas las emisoras.', 'A un toque.'],
+    text: 'Más de 4500 streams oficiales de 21 países, ordenados por género. En el bolsillo, en la carretera y en la barra de menús.',
+    free: 'Gratis · Sin cuenta · Sin anuncios',
+  },
+  stats: [
+    [0, 'emisoras oficiales'],
+    [0, 'países'],
+    [0, 'géneros'],
+    [0, 'anuncios'],
+  ],
+  features: {
+    carplay: {
+      kicker: 'CarPlay',
+      title: ['Arranca el coche.', 'Tu radio ya suena.'],
+      text: 'Skywave retoma tu última emisora en cuanto arrancas y se reconecta sola después de un túnel o una zona sin cobertura, con 30 segundos de reserva en los streams HD.',
+      points: ['Tu última emisora al arrancar', 'Se reconecta sola', 'Mandos del volante y Siri'],
+    },
+    widget: {
+      kicker: 'Widget',
+      title: ['Tus favoritas,', 'a un toque.'],
+      text: 'El widget pone tu emisora favorita desde la pantalla de inicio, sin abrir la app. Otro toque la pausa.',
+    },
+    songs: {
+      kicker: 'Al aire',
+      title: ['¿Qué canción', 'es esta?'],
+      text: 'Título, artista y portada, en vivo: en la app, en la pantalla bloqueada y en el coche. Encuéntralas en Recientes y vuelve a escucharlas en Spotify o Apple Music.',
+    },
+    world: {
+      kicker: 'Explorar',
+      title: ['Más de 4500 emisoras.', 'Las más escuchadas, primero.'],
+      text: '21 países, ordenados por género y por la audiencia real de cada país. Cada stream viene de la propia emisora y se revisa cada semana.',
+      points: ['Streams oficiales, revisados cada semana', 'Tu país primero, después el mundo', 'Busca por nombre, género o país'],
+    },
+    mac: {
+      kicker: 'Mac',
+      title: ['También en', 'la barra de menús.'],
+      text: 'Un clic en la onda, sin ventanas de por medio. Las canciones pasan por la barra de menús y tus favoritas se sincronizan entre tu iPhone y tu Mac con iCloud.',
+    },
+  },
+  more: {
+    title: 'Y más.',
+    items: [
+      ['siri', 'Siri y Atajos', 'Pídele una emisora a Siri, o ponla desde Spotlight y Atajos.'],
+      ['cast', 'Chromecast y AirPlay', 'Envía la radio a un Chromecast o a un altavoz AirPlay.'],
+      ['moon', 'Temporizador', 'La radio se apaga sola al cabo de 15 a 90 minutos.'],
+      ['cloud', 'Favoritas en iCloud', 'Te siguen en el iPhone y en el Mac, incluso si reinstalas la app.'],
+    ],
+  },
+  soon: 'Android · próximamente',
+  macAppStore: 'Descárgalo en el Mac App Store',
+  privacy: {
+    title: 'Sin cuenta. Sin anuncios. Sin rastreo.',
+    text: 'Tus favoritas se quedan en tus dispositivos y en tu propio iCloud. Sin cuenta ni rastreo: solo estadísticas de escucha anónimas.',
+  },
+  countrySection: { title: 'Radio de 21 países', text: 'Explora las emisoras de un país.' },
+  cta: { title: 'Sintoniza.', text: 'Skywave es gratis en el App Store, para iPhone y Mac.' },
+  footer: { privacy: 'Privacidad', support: 'Soporte', made: 'Hecho con cariño por WndrLabs.' },
+  station: {
+    title: (name, country) => `${name} – Escuchar ${vivo(country)}`,
+    titleXmas: (name) => `${name} – Radio de Navidad en vivo y gratis`,
+    description: (name, country, genres) =>
+      `Escucha ${name} ${vivo(country)}, el stream oficial (${country}${genres ? `, ${genres}` : ''}). Gratis en iPhone, CarPlay y Mac con Skywave.`,
+    live: 'En vivo',
+    play: 'Escuchar',
+    pause: 'Pausa',
+    loading: 'Conectando…',
+    unavailable: 'Este stream se escucha en la app Skywave.',
+    openApp: 'Escuchar en Skywave',
+    getApp: 'Descarga Skywave gratis',
+    website: 'Web de la emisora',
+    about: (name, country) =>
+      `${name} es una emisora de radio de ${country}. Escúchala ${vivo(country)} y gratis en Skywave: en el iPhone, en el coche con CarPlay y en el Mac. El stream viene de la propia emisora.`,
+    more: (genre, country) => `Más ${genre} · ${country}`,
+    moreCountry: (country) => `Más emisoras de ${country}`,
+    allIn: (country) => `Todas las emisoras de ${country}`,
+    pitch: 'Skywave: 4000 emisoras, pensada para CarPlay.',
+  },
+  country: {
+    title: (country) => `Emisoras de radio de ${country} – Escuchar ${vivo(country)}`,
+    description: (country, n) =>
+      `${n} emisoras de radio oficiales de ${country}, ordenadas por género. Escúchalas ${vivo(country)} y gratis con Skywave en iPhone, CarPlay y Mac.`,
+    heading: (country) => `Radio de ${country}`,
+    intro: (country, n, top) =>
+      `Escucha ${vivo(country)} y gratis ${n} emisoras de radio de ${country}: ${top} y muchas más, ordenadas por género. Cada stream viene de la propia emisora y se revisa cada semana. En Skywave suenan en el iPhone, en el coche con CarPlay y en el Mac.`,
+    count: (n) => `${n} emisoras`,
+  },
+  notFound: {
+    title: 'Emisora no encontrada',
+    text: 'Esta página cambió de dirección, o la emisora ya no emite. Encuéntrala, y otras 4000, en Skywave.',
+    home: 'Volver al inicio',
+  },
+};
+
 export const T = Object.fromEntries(
-  Object.entries({ en, fr, de }).map(([lang, t]) => [lang, { ...t, ...NAMES[lang] }]),
+  Object.entries({ en, fr, de, es }).map(([lang, t]) => [lang, { ...t, ...NAMES[lang] }]),
 );
