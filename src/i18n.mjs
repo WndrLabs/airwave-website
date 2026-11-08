@@ -25,7 +25,7 @@ const en = {
   },
   xmasBanner: { title: 'Christmas radio is on', text: 'Carols, crooners and Christmas hits, live from around the world.', cta: 'Listen' },
   meta: {
-    title: 'Skywave – World radio, made for CarPlay',
+    title: 'Skywave – Live radio for iPhone, CarPlay & Mac',
     description:
       '4,500+ official radio stations from 21 countries, the most listened first. Made for CarPlay, with a home screen widget and a Mac menu bar app. No account, no ads, no tracking.',
   },
@@ -140,7 +140,7 @@ const fr = {
   },
   xmasBanner: { title: 'Les radios de Noël sont là', text: 'Chants de Noël, crooners et tubes de fêtes, en direct du monde entier.', cta: 'Écouter' },
   meta: {
-    title: 'Skywave – La radio du monde, pensée pour CarPlay',
+    title: 'Skywave – Écouter la radio en direct sur iPhone, CarPlay et Mac',
     description:
       'Plus de 4 500 radios officielles dans 21 pays, les plus écoutées d’abord. Pensée pour CarPlay, avec un widget et une app dans la barre des menus du Mac. Sans compte, sans pub, sans pistage.',
   },
@@ -255,7 +255,7 @@ const de = {
   },
   xmasBanner: { title: 'Weihnachtsradio ist da', text: 'Weihnachtslieder, Crooner und Hits zum Fest – live aus aller Welt.', cta: 'Reinhören' },
   meta: {
-    title: 'Skywave – Radio weltweit, gemacht für CarPlay',
+    title: 'Skywave – Radio live hören auf iPhone, CarPlay & Mac',
     description:
       'Über 4.500 offizielle Radiosender aus 21 Ländern, die beliebtesten zuerst. Gemacht für CarPlay, mit Widget und einer Mac-App in der Menüleiste. Kein Konto, keine Werbung, kein Tracking.',
   },

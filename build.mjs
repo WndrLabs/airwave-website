@@ -71,10 +71,16 @@ for (const lang of LANGS) {
 }
 
 // Every station has a page of its own (a link preview, the App Store banner and a 200 need one);
-// the sitemap lists the most popular ones (staticStations).
+// the sitemap lists the most popular ones (staticStations). The others, thousands of small
+// webradios on the same template, ask search engines not to index them: thin pages weigh on how a
+// young site is judged, and their names are rarely searched. Their links are still followed.
 const withPage = staticStations(catalog);
+const indexed = new Set(withPage.map((s) => s.slug));
 for (const s of stations) {
-  write(stationPath(s.slug), stationPage(s, { related: relatedOf(s, catalog), byCountry }));
+  write(
+    stationPath(s.slug),
+    stationPage(s, { related: relatedOf(s, catalog), byCountry, indexed: indexed.has(s.slug) }),
+  );
 }
 
 for (const lang of LANGS) write(XMAS_PATHS[lang], christmasPage(lang, christmas));

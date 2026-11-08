@@ -221,7 +221,8 @@ ${nav(lang, { landing: true })}
       '@context': 'https://schema.org',
       '@type': 'MobileApplication',
       name: 'Skywave',
-      operatingSystem: 'iOS',
+      // One App Store record for both apps (universal purchase): iPhone with CarPlay, and Mac.
+      operatingSystem: 'iOS, macOS',
       applicationCategory: 'MusicApplication',
       description: t.meta.description,
       downloadUrl: SITE.appStore,
@@ -232,7 +233,21 @@ ${nav(lang, { landing: true })}
 
 // ─── Station ──────────────────────────────────────────────────────────────────────────────────────
 
-export function stationPage(station, { related, byCountry }) {
+/** Search engines' trail of a page (BreadcrumbList): Skywave, then each level down to it. */
+function breadcrumbs(lang, levels) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [['Skywave', landingPath(lang)], ...levels].map(([name, path], i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name,
+      item: SITE.abs(path),
+    })),
+  };
+}
+
+export function stationPage(station, { related, byCountry, indexed = true }) {
   const lang = langOf(station.country);
   const t = T[lang];
   const s = t.station;
@@ -316,15 +331,22 @@ ${nav(lang)}
     body,
     bodyClass: 'station',
     scripts: ['/js/site.js', '/js/station.js'],
-    jsonLd: {
-      '@context': 'https://schema.org',
-      '@type': 'RadioStation',
-      name: station.name,
-      url: SITE.abs(path),
-      ...(station.logo && { logo: station.logo, image: station.logo }),
-      ...(station.homepage && { sameAs: [station.homepage] }),
-      address: { '@type': 'PostalAddress', addressCountry: station.country },
-    },
+    noindex: !indexed,
+    jsonLd: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'RadioStation',
+        name: station.name,
+        url: SITE.abs(path),
+        ...(station.logo && { logo: station.logo, image: station.logo }),
+        ...(station.homepage && { sameAs: [station.homepage] }),
+        address: { '@type': 'PostalAddress', addressCountry: station.country },
+      },
+      breadcrumbs(lang, [
+        [T[lang].countries[station.country] ?? station.country, countryPath(station.country)],
+        [station.name, path],
+      ]),
+    ],
   });
 }
 
@@ -375,6 +397,7 @@ ${nav(lang)}
     body,
     bodyClass: 'country-page',
     scripts: ['/js/site.js'],
+    jsonLd: breadcrumbs(lang, [[name, countryPath(code)]]),
   });
 }
 
