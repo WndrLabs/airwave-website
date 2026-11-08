@@ -24,6 +24,7 @@ const PALETTES = {
   rnb: ['#B6449E', '#45206E'],
   pop: ['#E85A8C', '#8E2147'],
   rock: ['#56626F', '#1C2027'],
+  country: ['#D2A462', '#86492F'],
   electro: ['#1BA7B5', '#1A3A9E'],
   jazz: ['#C08A2E', '#4A2F0E'],
   classical: ['#9C8463', '#3A3127'],
