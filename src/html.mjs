@@ -31,19 +31,31 @@ const APPLE_GLYPH = '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M12.1
 const BADGE_REGION = { en: 'en-us', fr: 'fr-fr', de: 'de-de' };
 
 /** Apple's "Download on the App Store" badge (its own artwork; text if it can't load). */
-export function appStoreBadge(lang, { height = 54 } = {}) {
+export function appStoreBadge(lang, { height = 54, cls = '' } = {}) {
   const [small, big] = { en: ['Download on the', 'App Store'], fr: ['Télécharger dans', 'l’App Store'], de: ['Laden im', 'App Store'] }[lang];
-  return badge(SITE.appStore, 'download-on-the-app-store', T[lang].appStore, lang, height, small, big);
+  return badge(SITE.appStore, 'download-on-the-app-store', T[lang].appStore, lang, height, small, big, cls);
 }
 
 /** The same for the Mac App Store: the same listing (one purchase for iPhone and Mac), on its Mac page. */
-export function macAppStoreBadge(lang, { height = 54 } = {}) {
+export function macAppStoreBadge(lang, { height = 54, cls = '' } = {}) {
   const [small, big] = { en: ['Download on the', 'Mac App Store'], fr: ['Télécharger dans le', 'Mac App Store'], de: ['Laden im', 'Mac App Store'] }[lang];
-  return badge(`${SITE.appStore}?platform=mac`, 'download-on-the-mac-app-store', T[lang].macAppStore, lang, height, small, big);
+  return badge(`${SITE.appStore}?platform=mac`, 'download-on-the-mac-app-store', T[lang].macAppStore, lang, height, small, big, cls);
 }
 
-function badge(href, artwork, label, lang, height, small, big) {
-  return html`<a class="badge" href="${href}" aria-label="${esc(label)}" style="--h:${height}px">
+/**
+ * One badge, the visitor's: the App Store on a phone or tablet, the Mac App Store on a computer
+ * (both lead to the same listing). Both are in the page; DEVICE_SCRIPT marks the device on <html>
+ * before the page shows, and the CSS hides the other one. Without it, the App Store's.
+ */
+export function storeBadge(lang, { height = 54 } = {}) {
+  return appStoreBadge(lang, { height, cls: 'badge-ios' }) + macAppStoreBadge(lang, { height, cls: 'badge-mac' });
+}
+
+/** In <head>: on-mobile (iPhone, iPad, which says it's a Mac but has touch, Android) or on-desktop. */
+const DEVICE_SCRIPT = `<script>document.documentElement.classList.add(/iPhone|iPad|iPod|Android|Mobi/i.test(navigator.userAgent)||(navigator.maxTouchPoints>1&&/Macintosh/.test(navigator.userAgent))?'on-mobile':'on-desktop')</script>`;
+
+function badge(href, artwork, label, lang, height, small, big, cls = '') {
+  return html`<a class="badge${cls ? ` ${cls}` : ''}" href="${href}" aria-label="${esc(label)}" style="--h:${height}px">
     <img src="https://toolbox.marketingtools.apple.com/api/v2/badges/${artwork}/black/${BADGE_REGION[lang]}" alt="" height="${height}" onerror="this.remove()">
     <span class="badge-text" aria-hidden="true">${APPLE_GLYPH}<span><small>${small}</small>${big}</span></span>
   </a>`;
@@ -88,6 +100,7 @@ export function page({
 <html lang="${t.htmlLang}">
 <head>
 <meta charset="utf-8">
+${DEVICE_SCRIPT}
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}">

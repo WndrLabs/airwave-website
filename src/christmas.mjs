@@ -2,7 +2,7 @@
 // a few answers to what people search for in December.
 import { COUNTRIES } from './data.mjs';
 import { LANGS, T } from './i18n.mjs';
-import { XMAS_PATHS, appStoreBadge, esc, html, landingPath, nav, page, stationPath, waveSvg } from './html.mjs';
+import { XMAS_PATHS, esc, html, landingPath, nav, page, stationPath, storeBadge, waveSvg } from './html.mjs';
 import { logo } from './pages.mjs';
 import { SITE } from './site.mjs';
 
@@ -148,7 +148,7 @@ ${nav(lang)}
     <p class="kicker reveal">${x.kicker}</p>
     <h1 class="reveal"><span>${x.h1[0]}</span> <span class="grad-xmas">${x.h1[1]}</span></h1>
     <p class="lead reveal">${x.lead(n, countries)}</p>
-    <div class="reveal">${appStoreBadge(lang, { height: 54 })}</div>
+    <div class="reveal">${storeBadge(lang, { height: 54 })}</div>
   </section>
 
   <section class="related">
@@ -176,7 +176,7 @@ ${nav(lang)}
   <section class="cta cta-small">
     <div class="cta-wave">${waveSvg('cta')}</div>
     <h2 class="reveal">${x.cta}</h2>
-    <div class="reveal">${appStoreBadge(lang, { height: 56 })}</div>
+    <div class="reveal">${storeBadge(lang, { height: 56 })}</div>
     <p><a class="more-link" href="${SITE.url(landingPath(lang))}">Skywave →</a></p>
   </section>
 </main>`;

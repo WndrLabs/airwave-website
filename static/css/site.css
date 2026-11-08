@@ -462,6 +462,10 @@ p { margin: 0; }
 
 /* Apple's badge, or the drawn one while it can't load */
 .badge { height: var(--h, 54px); }
+/* One store badge, the visitor's (storeBadge): the App Store unless it's a computer. */
+.badge-mac { display: none; }
+.on-desktop .badge-mac { display: inline-block; }
+.on-desktop .badge-ios { display: none; }
 .badge img { height: 100%; width: auto; }
 .badge img + .badge-text { display: none; }
 .badge-text { display: inline-flex; align-items: center; gap: 8px; height: 100%; padding: 0 calc(var(--h) * 0.32) 0 calc(var(--h) * 0.26); border-radius: calc(var(--h) * 0.2); background: #000; color: #fff; border: 1px solid #a6a6a6; text-decoration: none; font: 600 calc(var(--h) * 0.4)/1 -apple-system, 'Inter', sans-serif; letter-spacing: -0.02em; }

@@ -2,8 +2,8 @@
 import { LANGS, T, langOf } from './i18n.mjs';
 import {
   XMAS_PATHS,
-  appStoreBadge,
   macAppStoreBadge,
+  storeBadge,
   countryPath,
   esc,
   html,
@@ -140,7 +140,7 @@ ${nav(lang, { landing: true })}
       <p class="kicker reveal">${t.hero.kicker}</p>
       <h1 class="reveal"><span>${t.hero.title[0]}</span> <span class="grad">${t.hero.title[1]}</span></h1>
       <p class="lead reveal">${t.hero.text}</p>
-      <div class="hero-cta reveal">${appStoreBadge(lang, { height: 56 })}${macAppStoreBadge(lang, { height: 56 })}</div>
+      <div class="hero-cta reveal">${storeBadge(lang, { height: 56 })}</div>
       <p class="hero-note reveal"><span class="free">${t.hero.free}</span><span class="soon">${t.soon}</span></p>
     </div>
     <div class="hero-phones">
@@ -203,7 +203,7 @@ ${nav(lang, { landing: true })}
     <img class="cta-icon reveal" src="${SITE.url('/img/icon-256.png')}" alt="" width="128" height="128" loading="lazy">
     <h2 class="reveal">${t.cta.title}</h2>
     <p class="lead reveal">${t.cta.text}</p>
-    <div class="hero-cta reveal">${appStoreBadge(lang, { height: 60 })}${macAppStoreBadge(lang, { height: 60 })}</div>
+    <div class="hero-cta reveal">${storeBadge(lang, { height: 60 })}</div>
     <p class="hero-note reveal"><span class="soon">${t.soon}</span></p>
   </section>
 </main>`;
@@ -294,7 +294,7 @@ ${nav(lang)}
       <a class="open-app" href="${esc(SITE.appLink(station.slug))}">
         <img src="${SITE.url('/img/icon-64.png')}" alt="" width="28" height="28">${esc(s.openApp)}
       </a>
-      ${appStoreBadge(lang, { height: 48 })}
+      ${storeBadge(lang, { height: 48 })}
     </div>
   </section>
 
@@ -412,7 +412,7 @@ ${nav(lang)}
   <div class="lost-wave">${waveSvg('lost')}</div>
   <h1>${t.notFound.title}</h1>
   <p class="lead">${t.notFound.text}</p>
-  <div class="lost-cta">${appStoreBadge(lang, { height: 54 })}<a class="more-link" href="${SITE.url('/')}">${t.notFound.home} →</a></div>
+  <div class="lost-cta">${storeBadge(lang, { height: 54 })}<a class="more-link" href="${SITE.url('/')}">${t.notFound.home} →</a></div>
 </main>`;
   return page({
     lang,
