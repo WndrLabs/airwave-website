@@ -9,7 +9,7 @@ const ISSUES = 'https://github.com/WndrLabs/airwaves-stations/issues';
 const NEW_ISSUE = `${ISSUES}/new`;
 const STATIONS_REPO = 'https://github.com/WndrLabs/airwaves-stations';
 const SCRUTER = 'https://scruter.net/privacy';
-const UPDATED = '2026-11-07';
+const UPDATED = '2026-11-08';
 
 const link = (href, text) => `<a href="${href}">${text}</a>`;
 const date = (lang) =>
@@ -30,6 +30,7 @@ const PRIVACY = {
     <ul>
       <li>a station viewed, played or added to your favorites: its name, country and genre, where it was started from (genres, search, favorites, CarPlay, Siri, a link) and the platform (iPhone, CarPlay, Mac, Android or website);</li>
       <li>the app opened, and from where (its icon, a station link, the widget, a shortcut);</li>
+      <li>in the app, the screens you open (genres, a list, search, favorites…) and how long you stay on each: their names only, never what they show nor what you type;</li>
       <li>in the app, crash reports and performance measurements (such as its launch time), with the app and system versions, to find and fix bugs;</li>
       <li>on this website, the pages you view, how long and how far down, and the links you follow to other sites (the App Store, for instance);</li>
       <li>a search: what you searched for, cleaned and cut to its first 20 characters (without e-mail or web addresses, nor long numbers), and whether it found something;</li>
@@ -65,6 +66,7 @@ const PRIVACY = {
     <ul>
       <li>une radio affichée, écoutée ou ajoutée aux favoris : son nom, son pays et son genre, d’où elle a été lancée (genres, recherche, favoris, CarPlay, Siri, un lien) et la plateforme (iPhone, CarPlay, Mac, Android ou site) ;</li>
       <li>l’ouverture de l’app, et d’où (son icône, le lien d’une radio, le widget, un raccourci) ;</li>
+      <li>dans l’app, les écrans ouverts (genres, une liste, recherche, favoris…) et le temps passé sur chacun : leur nom seulement, jamais ce qu’ils affichent ni ce que vous tapez ;</li>
       <li>dans l’app, les rapports de plantage et des mesures de performance (comme son temps de lancement), avec les versions de l’app et du système, pour trouver et corriger les bugs ;</li>
       <li>sur ce site, les pages vues, combien de temps et jusqu’où, et les liens suivis vers d’autres sites (l’App Store, par exemple) ;</li>
       <li>une recherche : ce que vous avez cherché, nettoyé et limité à ses 20 premiers caractères (sans adresse e-mail ou web, ni long numéro), et si elle a trouvé quelque chose ;</li>
@@ -100,6 +102,7 @@ const PRIVACY = {
     <ul>
       <li>ein Sender, der angezeigt, abgespielt oder zu den Favoriten hinzugefügt wird: sein Name, Land und Genre, wo er gestartet wurde (Genres, Suche, Favoriten, CarPlay, Siri, ein Link) und die Plattform (iPhone, CarPlay, Mac, Android oder Website);</li>
       <li>das Öffnen der App, und von wo (ihr Symbol, der Link eines Senders, das Widget, ein Kurzbefehl);</li>
+      <li>in der App die geöffneten Bildschirme (Genres, eine Liste, Suche, Favoriten …) und wie lange du auf jedem bleibst: nur ihr Name, nie ihr Inhalt und nie, was du eingibst;</li>
       <li>in der App Absturzberichte und Leistungsmessungen (etwa ihre Startzeit), mit der App- und Systemversion, um Fehler zu finden und zu beheben;</li>
       <li>auf dieser Website die angesehenen Seiten, wie lange und wie weit nach unten, und die Links zu anderen Websites (etwa zum App Store);</li>
       <li>eine Suche: wonach du gesucht hast, bereinigt und auf die ersten 20 Zeichen gekürzt (ohne E-Mail- oder Webadressen und lange Nummern), und ob sie etwas gefunden hat;</li>
