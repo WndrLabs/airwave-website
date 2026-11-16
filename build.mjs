@@ -13,6 +13,7 @@ import { dirname, join } from 'node:path';
 import { prepare, relatedOf, staticStations } from './src/catalog.mjs';
 import { christmasPage, isChristmasSeason } from './src/christmas.mjs';
 import { docPages } from './src/docs.mjs';
+import { guidePages } from './src/guides.mjs';
 import { LANGS, T } from './src/i18n.mjs';
 import { XMAS_PATHS, countryPath, esc, genrePath, landingPath, legacyCountryPath, stationPath } from './src/html.mjs';
 import { countryPage, genrePage, landingPage, notFoundPage, stationPage } from './src/pages.mjs';
@@ -110,6 +111,8 @@ for (const [code, genres] of genrePages) {
 }
 
 for (const [path, content] of docPages()) write(path, content);
+const guides = guidePages(byCountry, stations.length);
+for (const [path, content] of guides) write(path, content);
 
 write('404.html', notFoundPage());
 
@@ -139,6 +142,7 @@ const urls = [
   ...LANGS.map(landingPath),
   ...LANGS.map((l) => XMAS_PATHS[l]),
   ...docPages().map(([path]) => path),
+  ...guides.map(([path]) => path),
   ...[...byCountry.keys()].map(countryPath),
   ...genreUrls,
   ...withPage.map((s) => stationPath(s.slug)),

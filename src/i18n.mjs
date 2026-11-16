@@ -107,7 +107,9 @@ const en = {
   },
   countrySection: { title: 'Radio from 21 countries', text: 'Browse the stations of a country.' },
   cta: { title: 'Tune in.', text: 'Skywave is free on the App Store, for iPhone and Mac.' },
-  footer: { privacy: 'Privacy', support: 'Support', made: 'Made with care by WndrLabs.' },
+  footer: { privacy: 'Privacy', support: 'Support', guides: 'Guides', made: 'Made with care by WndrLabs.' },
+  /** Links to the guides (src/guides.mjs) from the landing page. */
+  guideLinks: { carplay: 'The CarPlay guide', mac: 'The Mac menu bar guide', abroad: 'Radio from home while you’re abroad' },
   station: {
     title: (name) => `${name} – Listen live`,
     titleXmas: (name) => `${name} – Christmas radio, listen live free`,
@@ -244,7 +246,8 @@ const fr = {
   },
   countrySection: { title: 'La radio de 21 pays', text: 'Parcourez les radios d’un pays.' },
   cta: { title: 'À l’écoute.', text: 'Skywave est gratuite sur l’App Store, pour iPhone et Mac.' },
-  footer: { privacy: 'Confidentialité', support: 'Assistance', made: 'Fait avec soin par WndrLabs.' },
+  footer: { privacy: 'Confidentialité', support: 'Assistance', guides: 'Guides', made: 'Fait avec soin par WndrLabs.' },
+  guideLinks: { carplay: 'Le guide CarPlay', mac: 'Le guide de la barre des menus', abroad: 'Écouter la radio française à l’étranger' },
   station: {
     title: (name) => `${name} – Écouter en direct`,
     titleXmas: (name) => `${name} – Radio de Noël en direct et gratuite`,
@@ -381,7 +384,8 @@ const de = {
   },
   countrySection: { title: 'Radio aus 21 Ländern', text: 'Entdecke die Sender eines Landes.' },
   cta: { title: 'Einschalten.', text: 'Skywave ist kostenlos im App Store, für iPhone und Mac.' },
-  footer: { privacy: 'Datenschutz', support: 'Hilfe', made: 'Mit Sorgfalt gemacht von WndrLabs.' },
+  footer: { privacy: 'Datenschutz', support: 'Hilfe', guides: 'Ratgeber', made: 'Mit Sorgfalt gemacht von WndrLabs.' },
+  guideLinks: { carplay: 'Der CarPlay-Ratgeber', mac: 'Der Ratgeber zur Menüleiste', abroad: 'Deutsches Radio im Ausland hören' },
   station: {
     title: (name) => `${name} – Live hören`,
     titleXmas: (name) => `${name} – Weihnachtsradio kostenlos live hören`,
@@ -524,7 +528,8 @@ const es = {
   },
   countrySection: { title: 'Radio de 21 países', text: 'Explora las emisoras de un país.' },
   cta: { title: 'Sintoniza.', text: 'Skywave es gratis en el App Store, para iPhone y Mac.' },
-  footer: { privacy: 'Privacidad', support: 'Soporte', made: 'Hecho con cariño por WndrLabs.' },
+  footer: { privacy: 'Privacidad', support: 'Soporte', guides: 'Guías', made: 'Hecho con cariño por WndrLabs.' },
+  guideLinks: { carplay: 'La guía de CarPlay', mac: 'La guía de la barra de menús', abroad: 'Escuchar la radio desde el extranjero' },
   station: {
     title: (name, country) => `${name} – Escuchar ${vivo(country)}`,
     titleXmas: (name) => `${name} – Radio de Navidad en vivo y gratis`,

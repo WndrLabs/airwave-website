@@ -1,6 +1,7 @@
 // The site's pages: the landing page (one per language), a page per station, a page per country.
 import { LANGS, T, langOf } from './i18n.mjs';
 import {
+  GUIDE_PATHS,
   XMAS_PATHS,
   macAppStoreBadge,
   storeBadge,
@@ -164,11 +165,11 @@ ${nav(lang, { landing: true })}
   </section>
 
   <div id="features">
-    ${featureSection('carplay', lang)}
+    ${featureSection('carplay', lang, { extra: `<p class="reveal"><a class="more-link" href="${SITE.url(GUIDE_PATHS.carplay[lang])}">${esc(t.guideLinks.carplay)} →</a></p>` })}
     ${featureSection('widget', lang, { reverse: true })}
     ${featureSection('songs', lang)}
     ${featureSection('world', lang, { reverse: true })}
-    ${featureSection('mac', lang, { extra: html`<div class="reveal">${macAppStoreBadge(lang, { height: 48 })}</div>` })}
+    ${featureSection('mac', lang, { extra: html`<div class="reveal">${macAppStoreBadge(lang, { height: 48 })}</div><p class="reveal"><a class="more-link" href="${SITE.url(GUIDE_PATHS.mac[lang])}">${esc(t.guideLinks.mac)} →</a></p>` })}
   </div>
 
   <section class="more">
@@ -190,7 +191,7 @@ ${nav(lang, { landing: true })}
 
   <section class="countries" id="stations">
     <h2 class="reveal">${t.countrySection.title}</h2>
-    <p class="lead reveal">${t.countrySection.text}</p>
+    <p class="lead reveal">${t.countrySection.text} <a class="more-link" href="${SITE.url(GUIDE_PATHS.abroad[lang])}">${esc(t.guideLinks.abroad)} →</a></p>
     <div class="country-grid">
       ${COUNTRIES
         .filter((c) => byCountry.get(c.code)?.length)
