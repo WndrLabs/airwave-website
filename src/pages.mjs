@@ -6,6 +6,7 @@ import {
   storeBadge,
   countryPath,
   esc,
+  genrePath,
   html,
   landingPath,
   nav,
@@ -218,17 +219,29 @@ ${nav(lang, { landing: true })}
     alternates,
     bodyClass: 'landing',
     scripts: ['/js/site.js'],
-    jsonLd: {
-      '@context': 'https://schema.org',
-      '@type': 'MobileApplication',
-      name: 'Skywave',
-      // One App Store record for both apps (universal purchase): iPhone with CarPlay, and Mac.
-      operatingSystem: 'iOS, macOS',
-      applicationCategory: 'MusicApplication',
-      description: t.meta.description,
-      downloadUrl: SITE.appStore,
-      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-    },
+    jsonLd: [
+      // The site's name in search results: "Skywave Radio", as "Skywave" alone is other products' too.
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: 'Skywave Radio',
+        alternateName: 'Skywave',
+        url: SITE.abs('/'),
+        inLanguage: t.htmlLang,
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'MobileApplication',
+        name: 'Skywave',
+        alternateName: 'Skywave Radio',
+        // One App Store record for both apps (universal purchase): iPhone with CarPlay, and Mac.
+        operatingSystem: 'iOS, macOS',
+        applicationCategory: 'MusicApplication',
+        description: t.meta.description,
+        downloadUrl: SITE.appStore,
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+      },
+    ],
   });
 }
 
@@ -239,7 +252,7 @@ function breadcrumbs(lang, levels) {
   return {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
-    itemListElement: [['Skywave', landingPath(lang)], ...levels].map(([name, path], i) => ({
+    itemListElement: [['Skywave Radio', landingPath(lang)], ...levels].map(([name, path], i) => ({
       '@type': 'ListItem',
       position: i + 1,
       name,
@@ -248,7 +261,7 @@ function breadcrumbs(lang, levels) {
   };
 }
 
-export function stationPage(station, { related, byCountry, indexed = true }) {
+export function stationPage(station, { related, byCountry, genrePages, indexed = true }) {
   const lang = langOf(station.country);
   const t = T[lang];
   const s = t.station;
@@ -264,6 +277,11 @@ export function stationPage(station, { related, byCountry, indexed = true }) {
       ? s.more(mainGenre, country)
       : s.moreCountry(country);
   const countryCount = byCountry.get(station.country)?.length ?? 0;
+  // Its genre's page in its country (the first of its genres that has one), not for Christmas.
+  const pageGenre = xmas ? null : station.genres.find((g) => genrePages?.get(station.country)?.has(g));
+  const genreLink = pageGenre
+    ? `<a class="more-link" href="${SITE.url(genrePath(station.country, pageGenre))}">${esc(t.genrePage.seeAll(t.genrePage.phrase[pageGenre] ?? pageGenre, genrePages.get(station.country).get(pageGenre).length))} →</a> `
+    : '';
 
   const body = html`
 ${nav(lang)}
@@ -312,7 +330,7 @@ ${nav(lang)}
         (r) => `<a class="station-card" href="${SITE.url(stationPath(r.slug))}">${logo(r, 56)}<span>${esc(r.name)}</span></a>`,
       )}
     </div>
-    <p>${xmas ? `<a class="more-link" href="${SITE.url(XMAS_PATHS[lang])}">🎄 ${esc(t.nav.xmasFooter)} →</a>` : `<a class="more-link" href="${SITE.url(countryPath(station.country))}">${esc(s.allIn(country))} · ${esc(t.country.count(countryCount))} →</a>`}</p>
+    <p class="more-links">${xmas ? `<a class="more-link" href="${SITE.url(XMAS_PATHS[lang])}">🎄 ${esc(t.nav.xmasFooter)} →</a>` : `${genreLink}<a class="more-link" href="${SITE.url(countryPath(station.country))}">${esc(s.allIn(country))} · ${esc(t.country.count(countryCount))} →</a>`}</p>
   </section>`
     : ''}
 
@@ -353,7 +371,7 @@ ${nav(lang)}
 
 // ─── Country ──────────────────────────────────────────────────────────────────────────────────────
 
-export function countryPage(code, stations, { genreOrder }) {
+export function countryPage(code, stations, { genreOrder, genres = new Map() }) {
   const lang = langOf(code);
   const t = T[lang];
   const name = t.countries[code] ?? code;
@@ -372,7 +390,7 @@ ${nav(lang)}
     <h1>${esc(t.country.heading(name))}</h1>
     <p class="lead">${esc(t.country.intro(name, stations.length, stations.slice(0, 3).map((s) => s.name).join(', ')))}</p>
     <nav class="genre-jump">
-      ${order.map((g) => `<a href="#${g}" style="--from:${palette(g)[0]};--to:${palette(g)[1]}">${esc(t.genres[g] ?? g)}</a>`)}
+      ${order.map((g) => `<a href="${genres.has(g) ? SITE.url(genrePath(code, g)) : `#${g}`}" style="--from:${palette(g)[0]};--to:${palette(g)[1]}">${esc(t.genres[g] ?? g)}</a>`)}
     </nav>
   </header>
   ${order.map(
@@ -383,6 +401,7 @@ ${nav(lang)}
         (s) => `<a class="station-card" href="${SITE.url(stationPath(s.slug))}">${logo(s, 56)}<span>${esc(s.name)}</span></a>`,
       )}
     </div>
+    ${genres.has(g) ? `<p><a class="more-link" href="${SITE.url(genrePath(code, g))}">${esc(t.genrePage.seeAll(t.genrePage.phrase[g] ?? g, genres.get(g).length))} →</a></p>` : ''}
   </section>`,
   )}
   <section class="pitch">
@@ -399,6 +418,91 @@ ${nav(lang)}
     bodyClass: 'country-page',
     scripts: ['/js/site.js'],
     jsonLd: breadcrumbs(lang, [[name, countryPath(code)]]),
+  });
+}
+
+// ─── A country's genre ────────────────────────────────────────────────────────────────────────────
+
+/**
+ * A country's stations of one genre (/radios/france/jazz/), most popular first: what people search
+ * for ("radio jazz en direct", "Klassik-Radio aus Deutschland"), with the country's other genres and
+ * the same genre elsewhere around it. Only for genres with GENRE_PAGE_MIN stations or more.
+ */
+export function genrePage(code, genre, stations, { genres, elsewhere = [], genreOrder }) {
+  const lang = langOf(code);
+  const t = T[lang];
+  const gp = t.genrePage;
+  const g = gp.phrase[genre] ?? (t.genres[genre] ?? genre).toLowerCase();
+  const name = t.countries[code] ?? code;
+  const path = genrePath(code, genre);
+  const top = stations.slice(0, 3).map((s) => s.name).join(', ');
+  const chip = (href, label, key) =>
+    `<a href="${href}" style="--from:${palette(key)[0]};--to:${palette(key)[1]}">${label}</a>`;
+  const others = [...genres.keys()]
+    .filter((k) => k !== genre)
+    .sort((a, b) => genreOrder.indexOf(a) - genreOrder.indexOf(b));
+
+  const body = html`
+${nav(lang)}
+<main class="country-main">
+  <header class="country-head">
+    <span class="big-flag">${flag(code)}</span>
+    <h1>${esc(gp.heading(g, code))}</h1>
+    <p class="lead">${esc(gp.intro(g, code, stations.length, top))}</p>
+  </header>
+  <section class="related">
+    <div class="station-grid">
+      ${stations.map(
+        (s) => `<a class="station-card" href="${SITE.url(stationPath(s.slug))}">${logo(s, 56)}<span>${esc(s.name)}</span></a>`,
+      )}
+    </div>
+  </section>
+  <section class="related">
+    <h2>${esc(gp.otherGenres(code))}</h2>
+    <nav class="genre-jump">
+      ${others.map((k) => chip(SITE.url(genrePath(code, k)), esc(t.genres[k] ?? k), k))}
+    </nav>
+    <p><a class="more-link" href="${SITE.url(countryPath(code))}">${esc(t.station.allIn(name))} →</a></p>
+  </section>
+  ${elsewhere.length
+    ? html`<section class="related">
+    <h2>${esc(gp.elsewhere(g))}</h2>
+    <nav class="genre-jump">
+      ${elsewhere.map((c) => chip(SITE.url(genrePath(c, genre)), `${flag(c)} ${esc(t.countries[c] ?? c)}`, genre))}
+    </nav>
+  </section>`
+    : ''}
+  <section class="pitch">
+    <a href="${SITE.url(landingPath(lang))}">${waveSvg('mini')}<span>${esc(t.station.pitch)}</span></a>
+  </section>
+</main>`;
+
+  return page({
+    lang,
+    path,
+    title: gp.title(g, code),
+    description: gp.description(g, code, stations.length),
+    body,
+    bodyClass: 'country-page',
+    scripts: ['/js/site.js'],
+    jsonLd: [
+      breadcrumbs(lang, [
+        [name, countryPath(code)],
+        [t.genres[genre] ?? genre, path],
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        name: gp.heading(g, code),
+        numberOfItems: stations.length,
+        itemListElement: stations.slice(0, 50).map((s, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name: s.name,
+          url: SITE.abs(stationPath(s.slug)),
+        })),
+      },
+    ],
   });
 }
 

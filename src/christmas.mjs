@@ -12,6 +12,12 @@ export function isChristmasSeason(date = new Date()) {
   return m === 10 || m === 11 || (m === 0 && date.getUTCDate() <= 6);
 }
 
+/**
+ * The year of the coming Christmas, in the pages' titles: people search for "radio noël 2026". In
+ * January (until Epiphany), the Christmas just gone.
+ */
+export const xmasYear = (date = new Date()) => date.getUTCFullYear() - (date.getUTCMonth() === 0 ? 1 : 0);
+
 /** A Christmas station's style, from its name (they all share the one genre). */
 const STYLES = [
   ['gospel', /gospel|christian|\bcbn\b|k-?love|worship|hymn/],
@@ -28,7 +34,7 @@ export const xmasStyle = (station) => {
 
 const XMAS = {
   en: {
-    title: 'Christmas Radio – Listen live to Christmas music, free',
+    title: (y) => `Christmas Radio ${y} – Listen live to Christmas music, free`,
     description: (n) =>
       `${n} Christmas radio stations live, free: Christmas hits, carols, crooners and classics, 24/7. On iPhone, in the car with CarPlay and on Mac with Skywave.`,
     kicker: 'Christmas radio',
@@ -57,7 +63,7 @@ const XMAS = {
     cta: 'All the Christmas stations, in your pocket and your car.',
   },
   fr: {
-    title: 'Radio de Noël – Écouter de la musique de Noël en direct, gratuit',
+    title: (y) => `Radio de Noël ${y} – Écouter de la musique de Noël en direct, gratuit`,
     description: (n) =>
       `${n} radios de Noël en direct et gratuites : tubes de Noël, chants, crooners et classiques, 24 h/24. Sur iPhone, en voiture avec CarPlay et sur Mac avec Skywave.`,
     kicker: 'Radios de Noël',
@@ -86,7 +92,7 @@ const XMAS = {
     cta: 'Toutes les radios de Noël, dans la poche et dans la voiture.',
   },
   de: {
-    title: 'Weihnachtsradio – Weihnachtsmusik kostenlos live hören',
+    title: (y) => `Weihnachtsradio ${y} – Weihnachtsmusik kostenlos live hören`,
     description: (n) =>
       `${n} Weihnachtsradios live und kostenlos: Weihnachtshits, Weihnachtslieder, Crooner und Klassiker, rund um die Uhr. Auf dem iPhone, im Auto mit CarPlay und auf dem Mac mit Skywave.`,
     kicker: 'Weihnachtsradio',
@@ -115,7 +121,7 @@ const XMAS = {
     cta: 'Alle Weihnachtssender, in der Tasche und im Auto.',
   },
   es: {
-    title: 'Radio de Navidad – Escuchar música navideña en vivo, gratis',
+    title: (y) => `Radio de Navidad ${y} – Escuchar música navideña en vivo, gratis`,
     description: (n) =>
       `${n} emisoras de radio de Navidad en vivo y gratis: éxitos navideños, villancicos, crooners y clásicos, las 24 horas. En el iPhone, en el coche con CarPlay y en el Mac con Skywave.`,
     kicker: 'Radio de Navidad',
@@ -213,7 +219,7 @@ ${nav(lang)}
   return page({
     lang,
     path: XMAS_PATHS[lang],
-    title: x.title,
+    title: x.title(xmasYear()),
     description: x.description(n),
     image: '/img/og-christmas.png',
     body,

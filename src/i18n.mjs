@@ -9,6 +9,21 @@ export const LANGS = ['en', 'fr', 'de', 'es'];
 export const COUNTRY_LANG = { FR: 'fr', BE: 'fr', SN: 'fr', CI: 'fr', MA: 'fr', DE: 'de', CH: 'de', AT: 'de', ES: 'es', MX: 'es' };
 export const langOf = (country) => COUNTRY_LANG[country] ?? 'en';
 
+const cap = (text) => text.charAt(0).toUpperCase() + text.slice(1);
+/** English: "in the United States", "in France". */
+const EN_THE = { US: 'the United States', GB: 'the United Kingdom', NL: 'the Netherlands' };
+const enPlace = (code) => EN_THE[code] ?? NAMES.en.countries[code] ?? code;
+/** French, for the countries whose pages are in French: "en France", "au Sénégal". */
+const FR_IN = { FR: 'en France', BE: 'en Belgique', SN: 'au Sénégal', CI: 'en Côte d’Ivoire', MA: 'au Maroc' };
+const frIn = (code) => FR_IN[code] ?? `(${NAMES.fr.countries[code] ?? code})`;
+/** German: "aus der Schweiz", "in Österreich". */
+const DE_AUS = { DE: 'aus Deutschland', CH: 'aus der Schweiz', AT: 'aus Österreich' };
+const DE_IN = { DE: 'in Deutschland', CH: 'in der Schweiz', AT: 'in Österreich' };
+const deAus = (code) => DE_AUS[code] ?? `aus ${NAMES.de.countries[code] ?? code}`;
+const deIn = (code) => DE_IN[code] ?? `in ${NAMES.de.countries[code] ?? code}`;
+/** Spanish: "de España", "de México". */
+const esDe = (code) => `de ${NAMES.es.countries[code] ?? code}`;
+
 const en = {
   locale: 'en_US',
   htmlLang: 'en',
@@ -25,7 +40,7 @@ const en = {
   },
   xmasBanner: { title: 'Christmas radio is on', text: 'Carols, crooners and Christmas hits, live from around the world.', cta: 'Listen' },
   meta: {
-    title: 'Skywave – Live radio for iPhone, CarPlay & Mac',
+    title: 'Skywave Radio – Live radio for iPhone, CarPlay & Mac',
     description:
       '4,500+ official radio stations from 21 countries, the most listened first. Made for CarPlay, with a home screen widget and a Mac menu bar app. No account, no ads, no tracking.',
   },
@@ -117,6 +132,23 @@ const en = {
       `Listen live to ${n} radio stations from ${country}, free: ${top} and many more, sorted by genre. Every stream comes from the broadcaster itself and is checked every week. In Skywave, they play on iPhone, in the car with CarPlay and on Mac.`,
     count: (n) => `${n} stations`,
   },
+  /** A country's genre (/radios/france/jazz/): `g` is the genre as said before "radio". */
+  genrePage: {
+    phrase: {
+      rap: 'rap', hiphop: 'hip-hop', rnb: 'R&B and soul', pop: 'pop', rock: 'rock', country: 'country',
+      electro: 'electronic', jazz: 'jazz', classical: 'classical', reggae: 'reggae', afro: 'Afro', latin: 'Latin',
+      oldies: 'oldies', news: 'news', talk: 'talk', sports: 'sports', kids: 'kids', variety: 'variety',
+    },
+    title: (g, code) => `${cap(g)} radio in ${enPlace(code)} – Listen live`,
+    description: (g, code, n) =>
+      `${n} ${g} radio stations from ${enPlace(code)}, live and free, the most listened first. Listen here, or with Skywave on iPhone, CarPlay and Mac.`,
+    heading: (g, code) => `${cap(g)} radio in ${enPlace(code)}`,
+    intro: (g, code, n, top) =>
+      `Listen live to ${n} ${g} radio stations from ${enPlace(code)}, free: ${top} and more, the most listened first. Tap one to listen right here, or take them everywhere with Skywave on iPhone, in the car with CarPlay and on Mac.`,
+    otherGenres: (code) => `More radio in ${enPlace(code)}`,
+    elsewhere: (g) => `${cap(g)} radio in other countries`,
+    seeAll: (g, n) => `All ${n} ${g} stations`,
+  },
   notFound: {
     title: 'Station not found',
     text: 'This page has moved, or the station is no longer on air. Find it, and 4,000 others, in Skywave.',
@@ -140,7 +172,7 @@ const fr = {
   },
   xmasBanner: { title: 'Les radios de Noël sont là', text: 'Chants de Noël, crooners et tubes de fêtes, en direct du monde entier.', cta: 'Écouter' },
   meta: {
-    title: 'Skywave – Écouter la radio en direct sur iPhone, CarPlay et Mac',
+    title: 'Skywave Radio – Écouter la radio en direct sur iPhone, CarPlay et Mac',
     description:
       'Plus de 4 500 radios officielles dans 21 pays, les plus écoutées d’abord. Pensée pour CarPlay, avec un widget et une app dans la barre des menus du Mac. Sans compte, sans pub, sans pistage.',
   },
@@ -232,6 +264,24 @@ const fr = {
       `Écoutez gratuitement ${n} radios en direct (${country}) : ${top} et bien d’autres, rangées par genre. Chaque flux vient du diffuseur lui‑même et il est vérifié chaque semaine. Dans Skywave, elles s’écoutent sur iPhone, en voiture avec CarPlay et sur Mac.`,
     count: (n) => `${n} radios`,
   },
+  /** A country's genre (/radios/france/jazz/): `g` is the genre as said after « Radios ». */
+  genrePage: {
+    phrase: {
+      rap: 'rap', hiphop: 'hip-hop', rnb: 'R&B et soul', pop: 'pop', rock: 'rock', country: 'country',
+      electro: 'électro', jazz: 'jazz', classical: 'de musique classique', reggae: 'reggae', afro: 'afro',
+      latin: 'latino', oldies: 'rétro', news: 'd’info', talk: 'talk', sports: 'de sport', kids: 'pour enfants',
+      variety: 'de variétés',
+    },
+    title: (g, code) => `Radios ${g} ${frIn(code)} – Écouter en direct`,
+    description: (g, code, n) =>
+      `${n} radios ${g} ${frIn(code)}, en direct et gratuites, les plus écoutées d’abord. Écoutez‑les ici ou avec Skywave sur iPhone, CarPlay et Mac.`,
+    heading: (g, code) => `Radios ${g} ${frIn(code)}`,
+    intro: (g, code, n, top) =>
+      `Écoutez gratuitement ${n} radios ${g} en direct ${frIn(code)} : ${top} et d’autres, les plus écoutées d’abord. Touchez une radio pour l’écouter ici, ou emportez‑les partout avec Skywave sur iPhone, en voiture avec CarPlay et sur Mac.`,
+    otherGenres: (code) => `Autres radios ${frIn(code)}`,
+    elsewhere: (g) => `Radios ${g} dans d’autres pays`,
+    seeAll: (g, n) => `Les ${n} radios ${g}`,
+  },
   notFound: {
     title: 'Radio introuvable',
     text: 'Cette page a changé d’adresse, ou la radio n’émet plus. Retrouvez‑la, et 4 000 autres, dans Skywave.',
@@ -255,7 +305,7 @@ const de = {
   },
   xmasBanner: { title: 'Weihnachtsradio ist da', text: 'Weihnachtslieder, Crooner und Hits zum Fest – live aus aller Welt.', cta: 'Reinhören' },
   meta: {
-    title: 'Skywave – Radio live hören auf iPhone, CarPlay & Mac',
+    title: 'Skywave Radio – Radio live hören auf iPhone, CarPlay & Mac',
     description:
       'Über 4.500 offizielle Radiosender aus 21 Ländern, die beliebtesten zuerst. Gemacht für CarPlay, mit Widget und einer Mac-App in der Menüleiste. Kein Konto, keine Werbung, kein Tracking.',
   },
@@ -347,6 +397,24 @@ const de = {
       `Höre ${n} Radiosender (${country}) kostenlos live: ${top} und viele mehr, nach Genre sortiert. Jeder Stream kommt direkt vom Sender und wird jede Woche geprüft. In Skywave laufen sie auf dem iPhone, im Auto mit CarPlay und auf dem Mac.`,
     count: (n) => `${n} Sender`,
   },
+  /** A country's genre (/radios/germany/jazz/): `g` is the genre's radio, "Jazz-Radio". */
+  genrePage: {
+    phrase: {
+      rap: 'Rap-Radio', hiphop: 'Hip-Hop-Radio', rnb: 'R&B- und Soul-Radio', pop: 'Pop-Radio', rock: 'Rock-Radio',
+      country: 'Country-Radio', electro: 'Electro-Radio', jazz: 'Jazz-Radio', classical: 'Klassik-Radio',
+      reggae: 'Reggae-Radio', afro: 'Afro-Radio', latin: 'Latin-Radio', oldies: 'Oldies-Radio', news: 'Nachrichtenradio',
+      talk: 'Talkradio', sports: 'Sportradio', kids: 'Kinderradio', variety: 'Unterhaltungsradio',
+    },
+    title: (g, code) => `${g} ${deAus(code)} – live hören`,
+    description: (g, code, n) =>
+      `${g} ${deAus(code)}: ${n} Sender live und kostenlos, die beliebtesten zuerst. Hier reinhören oder mit Skywave auf iPhone, CarPlay und Mac.`,
+    heading: (g, code) => `${g} ${deAus(code)}`,
+    intro: (g, code, n, top) =>
+      `Höre ${n} Sender kostenlos live: ${top} und weitere, die beliebtesten zuerst. Tippe auf einen Sender, um ihn hier zu hören, oder nimm sie mit Skywave überallhin mit – auf dem iPhone, im Auto mit CarPlay und auf dem Mac.`,
+    otherGenres: (code) => `Mehr Radio ${deIn(code)}`,
+    elsewhere: (g) => `${g} aus anderen Ländern`,
+    seeAll: (g, n) => `Alle ${n} Sender: ${g}`,
+  },
   notFound: {
     title: 'Sender nicht gefunden',
     text: 'Diese Seite ist umgezogen, oder der Sender ist nicht mehr auf Sendung. Finde ihn – und 4.000 weitere – in Skywave.',
@@ -376,7 +444,7 @@ const es = {
   },
   xmasBanner: { title: 'Llega la radio de Navidad', text: 'Villancicos, crooners y éxitos navideños, en vivo desde todo el mundo.', cta: 'Escuchar' },
   meta: {
-    title: 'Skywave – Radio en vivo en iPhone, CarPlay y Mac',
+    title: 'Skywave Radio – Radio en vivo en iPhone, CarPlay y Mac',
     description:
       'Más de 4500 emisoras oficiales de 21 países, las más escuchadas primero. Pensada para CarPlay, con widget y una app en la barra de menús del Mac. Sin cuenta, sin anuncios, sin rastreo.',
   },
@@ -467,6 +535,24 @@ const es = {
     intro: (country, n, top) =>
       `Escucha ${vivo(country)} y gratis ${n} emisoras de radio de ${country}: ${top} y muchas más, ordenadas por género. Cada stream viene de la propia emisora y se revisa cada semana. En Skywave suenan en el iPhone, en el coche con CarPlay y en el Mac.`,
     count: (n) => `${n} emisoras`,
+  },
+  /** A country's genre (/radios/mexico/rock/): `g` is the genre as said after « Emisoras de ». */
+  genrePage: {
+    phrase: {
+      rap: 'rap', hiphop: 'hip-hop', rnb: 'R&B y soul', pop: 'pop', rock: 'rock', country: 'country',
+      electro: 'música electrónica', jazz: 'jazz', classical: 'música clásica', reggae: 'reggae', afro: 'música afro',
+      latin: 'música latina', oldies: 'música retro', news: 'noticias', talk: 'tertulias', sports: 'deportes',
+      kids: 'música infantil', variety: 'variedades',
+    },
+    title: (g, code) => `Emisoras de ${g} ${esDe(code)} – Escuchar ${vivo(NAMES.es.countries[code])}`,
+    description: (g, code, n) =>
+      `${n} emisoras de ${g} ${esDe(code)}, ${vivo(NAMES.es.countries[code])} y gratis, las más escuchadas primero. Escúchalas aquí o con Skywave en iPhone, CarPlay y Mac.`,
+    heading: (g, code) => `Emisoras de ${g} ${esDe(code)}`,
+    intro: (g, code, n, top) =>
+      `Escucha ${vivo(NAMES.es.countries[code])} y gratis ${n} emisoras de ${g} ${esDe(code)}: ${top} y más, las más escuchadas primero. Toca una para escucharla aquí, o llévalas a todas partes con Skywave en el iPhone, en el coche con CarPlay y en el Mac.`,
+    otherGenres: (code) => `Más radio ${esDe(code)}`,
+    elsewhere: (g) => `Emisoras de ${g} de otros países`,
+    seeAll: (g, n) => `Las ${n} emisoras de ${g}`,
   },
   notFound: {
     title: 'Emisora no encontrada',

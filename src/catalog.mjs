@@ -23,7 +23,39 @@ export function prepare(catalog) {
   const byCountry = new Map();
   for (const s of stations) byCountry.set(s.country, [...(byCountry.get(s.country) ?? []), s]);
   const christmas = stations.filter(isChristmas);
-  return { stations, byCountry, christmas, clashes: catalog.stations.length - stations.length };
+  return {
+    stations,
+    byCountry,
+    christmas,
+    genrePages: genrePages(byCountry),
+    clashes: catalog.stations.length - stations.length,
+  };
+}
+
+/** Genres without pages per country: Christmas has its own page, Gaming holds only the GTA radios. */
+const NO_GENRE_PAGE = new Set(['christmas', 'gaming']);
+/** The fewest stations a country's genre needs for a page of its own: fewer would make a thin page. */
+export const GENRE_PAGE_MIN = 5;
+
+/**
+ * The genres of each country that have a page (/radios/france/jazz/): country → genre → every
+ * station of the country with that genre among its own, most popular first.
+ */
+function genrePages(byCountry) {
+  const pages = new Map();
+  for (const [country, list] of byCountry) {
+    const byGenre = new Map();
+    for (const s of list) {
+      for (const g of new Set(s.genres)) {
+        if (NO_GENRE_PAGE.has(g)) continue;
+        if (!byGenre.has(g)) byGenre.set(g, []);
+        byGenre.get(g).push(s);
+      }
+    }
+    const kept = new Map([...byGenre].filter(([, stations]) => stations.length >= GENRE_PAGE_MIN));
+    if (kept.size) pages.set(country, kept);
+  }
+  return pages;
 }
 
 export function staticStations({ stations, byCountry, christmas }) {

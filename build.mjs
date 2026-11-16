@@ -14,8 +14,8 @@ import { prepare, relatedOf, staticStations } from './src/catalog.mjs';
 import { christmasPage, isChristmasSeason } from './src/christmas.mjs';
 import { docPages } from './src/docs.mjs';
 import { LANGS, T } from './src/i18n.mjs';
-import { XMAS_PATHS, countryPath, esc, landingPath, legacyCountryPath, stationPath } from './src/html.mjs';
-import { countryPage, landingPage, notFoundPage, stationPage } from './src/pages.mjs';
+import { XMAS_PATHS, countryPath, esc, genrePath, landingPath, legacyCountryPath, stationPath } from './src/html.mjs';
+import { countryPage, genrePage, landingPage, notFoundPage, stationPage } from './src/pages.mjs';
 import { SITE, configureSite } from './src/site.mjs';
 
 const OUT = 'dist';
@@ -51,7 +51,7 @@ function write(path, content) {
 }
 
 const catalog = prepare(await loadStations());
-const { stations, byCountry, christmas, clashes } = catalog;
+const { stations, byCountry, christmas, genrePages, clashes } = catalog;
 if (clashes) console.warn(`${clashes} station(s) left out: same name and id start as another`);
 const genreOrder = Object.keys(T.en.genres);
 
@@ -79,20 +79,34 @@ const indexed = new Set(withPage.map((s) => s.slug));
 for (const s of stations) {
   write(
     stationPath(s.slug),
-    stationPage(s, { related: relatedOf(s, catalog), byCountry, indexed: indexed.has(s.slug) }),
+    stationPage(s, { related: relatedOf(s, catalog), byCountry, genrePages, indexed: indexed.has(s.slug) }),
   );
 }
 
 for (const lang of LANGS) write(XMAS_PATHS[lang], christmasPage(lang, christmas));
 
 for (const [code, list] of byCountry) {
-  write(countryPath(code), countryPage(code, list, { genreOrder }));
+  write(countryPath(code), countryPage(code, list, { genreOrder, genres: genrePages.get(code) }));
   // The first address of country pages (/country/jp/) leads to the new one.
   const to = SITE.abs(countryPath(code));
   write(
     legacyCountryPath(code),
     `<!doctype html><meta charset="utf-8"><title>Skywave</title><link rel="canonical" href="${esc(to)}"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0; url=${esc(to)}"><script>location.replace(${JSON.stringify(to)})</script><a href="${esc(to)}">${esc(to)}</a>\n`,
   );
+}
+
+// A country's genres with enough stations: their own pages, with the same genre elsewhere.
+const genreUrls = [];
+for (const [code, genres] of genrePages) {
+  for (const [genre, list] of genres) {
+    const elsewhere = [...genrePages]
+      .filter(([c, g]) => c !== code && g.has(genre))
+      .sort(([, a], [, b]) => b.get(genre).length - a.get(genre).length)
+      .slice(0, 12)
+      .map(([c]) => c);
+    write(genrePath(code, genre), genrePage(code, genre, list, { genres, elsewhere, genreOrder }));
+    genreUrls.push(genrePath(code, genre));
+  }
 }
 
 for (const [path, content] of docPages()) write(path, content);
@@ -126,6 +140,7 @@ const urls = [
   ...LANGS.map((l) => XMAS_PATHS[l]),
   ...docPages().map(([path]) => path),
   ...[...byCountry.keys()].map(countryPath),
+  ...genreUrls,
   ...withPage.map((s) => stationPath(s.slug)),
 ];
 const today = new Date().toISOString().slice(0, 10);
@@ -143,7 +158,7 @@ write(
   'site.webmanifest',
   JSON.stringify(
     {
-      name: 'Skywave',
+      name: 'Skywave Radio',
       short_name: 'Skywave',
       start_url: SITE.url('/'),
       display: 'browser',
@@ -161,5 +176,5 @@ write(
 write('robots.txt', `User-agent: *\nAllow: /\nSitemap: ${SITE.abs('/sitemap.xml')}\n`);
 
 console.log(
-  `${OUT}/: ${LANGS.length} landing pages, ${stations.length} station pages (${withPage.length} in the sitemap), ${christmas.length} Christmas stations${SITE.season ? ' (in season)' : ''}, ${byCountry.size} countries · ${SITE.abs('/')}`,
+  `${OUT}/: ${LANGS.length} landing pages, ${stations.length} station pages (${withPage.length} in the sitemap), ${christmas.length} Christmas stations${SITE.season ? ' (in season)' : ''}, ${byCountry.size} countries, ${genreUrls.length} genre pages · ${SITE.abs('/')}`,
 );

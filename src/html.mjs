@@ -17,6 +17,9 @@ export const html = (strings, ...values) =>
 export const landingPath = (lang) => (lang === 'en' ? '/' : `/${lang}/`);
 /** A country's page, by its English name: /radios/japan/, /radios/cote-d-ivoire/. */
 export const countryPath = (code) => `/radios/${slugify(NAMES.en.countries[code] ?? code)}/`;
+/** A country's genre (/radios/france/jazz/, /radios/germany/hip-hop/): its stations of that genre. */
+const GENRE_SLUGS = { hiphop: 'hip-hop', rnb: 'rnb-soul' };
+export const genrePath = (code, genre) => `${countryPath(code)}${GENRE_SLUGS[genre] ?? genre}/`;
 /** Where country pages were first (/country/jp/): they now redirect. */
 export const legacyCountryPath = (code) => `/country/${code.toLowerCase()}/`;
 /** The Christmas radio page, in each language. */
@@ -112,7 +115,7 @@ ${head}
 <meta name="apple-itunes-app" content="app-id=${SITE.appId}${appArgument ? `, app-argument=${esc(appArgument)}` : ''}">
 <meta name="theme-color" content="#0A0A1C">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="Skywave">
+<meta property="og:site_name" content="Skywave Radio">
 <meta property="og:locale" content="${t.locale}">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(description)}">

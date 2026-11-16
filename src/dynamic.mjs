@@ -17,12 +17,12 @@ export async function renderStation(config) {
     const res = await fetch(SITE.stationsUrl);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const catalog = prepare(await res.json());
-    const { stations, byCountry } = catalog;
+    const { stations, byCountry, genrePages } = catalog;
     const station = findBySlug(slug, stations);
     if (!station) throw new Error('No such station');
     // A renamed station: its current link.
     if (station.slug !== slug) history.replaceState(null, '', SITE.url(stationPath(station.slug)));
-    const page = stationPage(station, { related: relatedOf(station, catalog), byCountry });
+    const page = stationPage(station, { related: relatedOf(station, catalog), byCountry, genrePages });
     document.open();
     document.write(page);
     document.close();

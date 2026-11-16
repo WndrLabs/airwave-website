@@ -43,3 +43,9 @@ jobs:
           path: dist
       - id: deployment
         uses: actions/deploy-pages@v4
+      # Bing and the other IndexNow engines crawl the pages again (scripts/indexnow.mjs). Not on the
+      # daily rebuild: only when the site itself changed.
+      - name: IndexNow
+        if: github.event_name != 'schedule'
+        continue-on-error: true
+        run: node scripts/indexnow.mjs

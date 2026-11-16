@@ -429,6 +429,8 @@ p { margin: 0; }
 .about { display: grid; gap: 12px; color: var(--dim); max-width: 44em; }
 .ext, .more-link { color: var(--ink); font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--line); }
 .ext:hover, .more-link:hover { border-color: var(--violet); }
+/* A station's links to its genre's page and its country's, side by side. */
+.more-links { display: flex; flex-wrap: wrap; gap: 10px 22px; }
 .related { display: grid; gap: 20px; scroll-margin-top: 90px; }
 .related h2 { font-size: clamp(1.5rem, 3vw, 2.1rem); }
 .related h2 small { color: var(--faint); font: 500 1rem var(--text); margin-left: 6px; }
