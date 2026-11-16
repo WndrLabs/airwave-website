@@ -13,6 +13,8 @@ const cap = (text) => text.charAt(0).toUpperCase() + text.slice(1);
 /** English: "in the United States", "in France". */
 const EN_THE = { US: 'the United States', GB: 'the United Kingdom', NL: 'the Netherlands' };
 const enPlace = (code) => EN_THE[code] ?? NAMES.en.countries[code] ?? code;
+/** The same from a country's English name: "the United States", "France". */
+const the = (name) => EN_THE[Object.keys(NAMES.en.countries).find((c) => NAMES.en.countries[c] === name)] ?? name;
 /** French, for the countries whose pages are in French: "en France", "au Sénégal". */
 const FR_IN = { FR: 'en France', BE: 'en Belgique', SN: 'au Sénégal', CI: 'en Côte d’Ivoire', MA: 'au Maroc' };
 const frIn = (code) => FR_IN[code] ?? `(${NAMES.fr.countries[code] ?? code})`;
@@ -21,11 +23,14 @@ const DE_AUS = { DE: 'aus Deutschland', CH: 'aus der Schweiz', AT: 'aus Österre
 const DE_IN = { DE: 'in Deutschland', CH: 'in der Schweiz', AT: 'in Österreich' };
 const deAus = (code) => DE_AUS[code] ?? `aus ${NAMES.de.countries[code] ?? code}`;
 const deIn = (code) => DE_IN[code] ?? `in ${NAMES.de.countries[code] ?? code}`;
+/** Spanish: "en España", and "de España", "de México". */
+const esEn = (code) => `en ${NAMES.es.countries[code] ?? code}`;
 /** Spanish: "de España", "de México". */
 const esDe = (code) => `de ${NAMES.es.countries[code] ?? code}`;
 
 const en = {
   locale: 'en_US',
+  kbps: 'kbps',
   htmlLang: 'en',
   langName: 'English',
   appStore: 'Download on the App Store',
@@ -117,19 +122,23 @@ const en = {
     getApp: 'Get Skywave, free',
     website: 'Station website',
     about: (name, country) =>
-      `${name} is a radio station from ${country}. Listen live for free in Skywave, on iPhone, in your car with CarPlay and on your Mac. The stream comes from the broadcaster itself.`,
-    more: (genre, country) => `More ${genre} in ${country}`,
-    moreCountry: (country) => `More stations in ${country}`,
-    allIn: (country) => `All stations in ${country}`,
+      `${name} is a radio station from ${the(country)}. Listen live for free in Skywave, on iPhone, in your car with CarPlay and on your Mac. The stream comes from the broadcaster itself.`,
+    more: (genre, country) => `More ${genre} in ${the(country)}`,
+    moreCountry: (country) => `More stations in ${the(country)}`,
+    allIn: (country) => `All stations in ${the(country)}`,
+    /** Its place in Skywave's lists (the most listened first), in its country and its genre there. */
+    rank: (code, rank, total, g, grank, gtotal) =>
+      `In Skywave, where the most listened stations come first, it is number ${rank} of ${total} in ${enPlace(code)}${g ? `, and number ${grank} of ${gtotal} for ${g}` : ''}.`,
+    quality: (q) => `Stream: ${q}.`,
     pitch: 'Skywave: 4,000 stations, made for CarPlay.',
   },
   country: {
     title: (country) => `${country} radio stations – Listen live`,
     description: (country, n) =>
-      `${n} official radio stations from ${country}, sorted by genre. Listen live for free with Skywave on iPhone, CarPlay and Mac.`,
-    heading: (country) => `Radio in ${country}`,
+      `${n} official radio stations from ${the(country)}, sorted by genre. Listen live for free with Skywave on iPhone, CarPlay and Mac.`,
+    heading: (country) => `Radio in ${the(country)}`,
     intro: (country, n, top) =>
-      `Listen live to ${n} radio stations from ${country}, free: ${top} and many more, sorted by genre. Every stream comes from the broadcaster itself and is checked every week. In Skywave, they play on iPhone, in the car with CarPlay and on Mac.`,
+      `Listen live to ${n} radio stations from ${the(country)}, free: ${top} and many more, sorted by genre. Every stream comes from the broadcaster itself and is checked every week. In Skywave, they play on iPhone, in the car with CarPlay and on Mac.`,
     count: (n) => `${n} stations`,
   },
   /** A country's genre (/radios/france/jazz/): `g` is the genre as said before "radio". */
@@ -158,6 +167,7 @@ const en = {
 
 const fr = {
   locale: 'fr_FR',
+  kbps: 'kb/s',
   htmlLang: 'fr',
   langName: 'Français',
   appStore: 'Télécharger dans l’App Store',
@@ -253,6 +263,9 @@ const fr = {
     more: (genre, country) => `Plus de ${genre} · ${country}`,
     moreCountry: (country) => `Autres radios · ${country}`,
     allIn: (country) => `Toutes les radios · ${country}`,
+    rank: (code, rank, total, g, grank, gtotal) =>
+      `Dans Skywave, où les radios les plus écoutées passent en premier, elle est n°${rank} sur ${total} ${frIn(code)}${g ? `, et n°${grank} sur ${gtotal} parmi les radios ${g}` : ''}.`,
+    quality: (q) => `Flux : ${q}.`,
     pitch: 'Skywave : 4 000 radios, pensée pour CarPlay.',
   },
   country: {
@@ -291,6 +304,7 @@ const fr = {
 
 const de = {
   locale: 'de_DE',
+  kbps: 'kbit/s',
   htmlLang: 'de',
   langName: 'Deutsch',
   appStore: 'Laden im App Store',
@@ -386,6 +400,9 @@ const de = {
     more: (genre, country) => `Mehr ${genre} · ${country}`,
     moreCountry: (country) => `Weitere Sender · ${country}`,
     allIn: (country) => `Alle Sender · ${country}`,
+    rank: (code, rank, total, g, grank, gtotal, genreName) =>
+      `In Skywave, wo die meistgehörten Sender zuerst kommen, belegt er Platz ${rank} von ${total} ${deIn(code)}${g ? ` und Platz ${grank} von ${gtotal} im Genre ${genreName}` : ''}.`,
+    quality: (q) => `Stream: ${q}.`,
     pitch: 'Skywave: 4.000 Sender, gemacht für CarPlay.',
   },
   country: {
@@ -430,6 +447,7 @@ const vivo = (country) => (country === NAMES.es.countries.ES ? 'en directo' : 'e
 
 const es = {
   locale: 'es_ES',
+  kbps: 'kbps',
   htmlLang: 'es',
   langName: 'Español',
   appStore: 'Descárgalo en el App Store',
@@ -525,6 +543,9 @@ const es = {
     more: (genre, country) => `Más ${genre} · ${country}`,
     moreCountry: (country) => `Más emisoras de ${country}`,
     allIn: (country) => `Todas las emisoras de ${country}`,
+    rank: (code, rank, total, g, grank, gtotal) =>
+      `En Skywave, donde las emisoras más escuchadas van primero, ocupa el puesto ${rank} de ${total} ${esEn(code)}${g ? ` y el ${grank} de ${gtotal} en ${g}` : ''}.`,
+    quality: (q) => `Stream: ${q}.`,
     pitch: 'Skywave: 4000 emisoras, pensada para CarPlay.',
   },
   country: {

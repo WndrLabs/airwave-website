@@ -279,6 +279,12 @@ export function stationPage(station, { related, byCountry, genrePages, indexed =
   const countryCount = byCountry.get(station.country)?.length ?? 0;
   // Its genre's page in its country (the first of its genres that has one), not for Christmas.
   const pageGenre = xmas ? null : station.genres.find((g) => genrePages?.get(station.country)?.has(g));
+  // Its place in its country's list and in its genre's (most listened first), and its stream.
+  const countryRank = (byCountry.get(station.country)?.findIndex((r) => r.id === station.id) ?? -1) + 1;
+  const genreList = pageGenre ? genrePages.get(station.country).get(pageGenre) : null;
+  const genreRank = genreList ? genreList.findIndex((r) => r.id === station.id) + 1 : 0;
+  const genreCount = genreList?.length ?? 0;
+  const quality = [station.codec, station.bitrate > 0 ? `${station.bitrate} ${t.kbps}` : ''].filter(Boolean).join(', ');
   const genreLink = pageGenre
     ? `<a class="more-link" href="${SITE.url(genrePath(station.country, pageGenre))}">${esc(t.genrePage.seeAll(t.genrePage.phrase[pageGenre] ?? pageGenre, genrePages.get(station.country).get(pageGenre).length))} →</a> `
     : '';
@@ -319,6 +325,7 @@ ${nav(lang)}
 
   <section class="about">
     <p>${esc(s.about(station.name, country))}</p>
+    <p>${esc(s.rank(station.country, countryRank, countryCount, pageGenre ? t.genrePage.phrase[pageGenre] ?? pageGenre : null, genreRank, genreCount, pageGenre ? t.genres[pageGenre] ?? pageGenre : null))}${quality ? ` ${esc(s.quality(quality))}` : ''}</p>
     ${station.homepage ? `<p><a class="ext" href="${esc(station.homepage)}" rel="nofollow noopener">${esc(s.website)} ↗</a></p>` : ''}
   </section>
 
